@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Newest books</h2>
+<div class="book-items row sb">
+    @foreach (var book in Model.Books)
+    {
+        <a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id" class="book-item">
+            <img src="https://via.placeholder.com/250" alt="Book Image">
+            <span class="price">@book.Price</span>
+            <span class="title">@book.Name</span>
+        </a>
+    }
+</div>
