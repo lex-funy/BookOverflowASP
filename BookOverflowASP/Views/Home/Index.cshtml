@@ -7,7 +7,7 @@
     @foreach (var book in Model.Books)
     {
         <a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id" class="book-item">
-            <img src="https://via.placeholder.com/250" alt="Book Image">
+            <img src="https://picsum.photos/250/250" alt="Book Image">
             <span class="price">@book.Price</span>
             <span class="title">@book.Name</span>
         </a>

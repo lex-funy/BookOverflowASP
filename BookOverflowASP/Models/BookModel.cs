@@ -14,6 +14,7 @@ namespace BookOverflowASP.Models
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Quality rating")]
         public int QualityRating { get; set; }
 
         [Required]

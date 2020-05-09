@@ -11,7 +11,6 @@
 }
 
 <form method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="FirstName" class="control-label"></label>
         <input asp-for="FirstName" class="form-control" placeholder="First name"/>
@@ -42,7 +41,9 @@
 
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <input type="submit" class="btn btn-primary" />
-    </div>
+    <input type="submit" class="btn" />
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

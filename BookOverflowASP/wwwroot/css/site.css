@@ -45,10 +45,40 @@ a:hover {
     content: "€";
 }
 
+.hidden { 
+    display: none!important ;
+}
+
+/*                */
+/* Button styling */
+/*                */
+
 .btn {
-    background: rgb(63, 63, 202);
-    color: white;
-    border-color: rgb(89, 89, 189);
+    padding:6px 15px;
+	color:#ffffff;
+    
+	background-color:#e4685d;
+    
+    border:1px solid #ffffff;
+	border-radius:4px;
+    font-size:15px;
+}
+
+.btn:hover {
+    background-color:#eb675e;
+}
+
+.btn:active {
+    position:relative;
+    top:1px;
+}
+
+.btn.add {
+    background: #7ad752;
+}
+
+.btn.add:hover {
+    background: #74c551;
 }
 
 /*                */
@@ -56,11 +86,19 @@ a:hover {
 /*                */
 
 header {
-    padding: 25px 0;
+    padding: 15px 0;
     margin-bottom: 25px;
     color: #fff;
-    background: #222;
+
+    background: #96c1e8;
 }
+/* 
+header li, header h1 {
+    margin: 0 10px;
+    padding: 10px;
+    background: #96c1e8;
+    border-radius: 100px;
+} */
 
 header h1 {
     padding-right: 25px;
@@ -75,6 +113,23 @@ header li {
 
 header a {
     color: #fff;
+}
+
+/*               */
+/* Error styling */
+/*               */
+
+.text-danger span {
+    display: block;
+
+    margin: 10px 0;
+    padding: 10px;
+
+    border-radius: 3px;
+    color: #D8000C;
+    background-color: #FFBABA;
+
+    font-size: 13px;
 }
 
 /*                   */
@@ -94,11 +149,16 @@ header a {
 .book-item {
     width: 250px;
     height: 250px;
-
+    
     margin: 25px 0;
     text-align: center;
     
     position: relative;
+}
+
+.book-item:hover {
+    box-shadow: 5px 5px 5px rgb(102, 102, 102);
+    transform: scale(1.02);
 }
 
 .book-item.small {
@@ -118,8 +178,7 @@ header a {
     left: 0;
 
     padding: 10px;
-    background: #eeea;
-    border-bottom-right-radius: 25%;
+    background: #fff;
 }
 
 .book-item .title {
@@ -127,13 +186,28 @@ header a {
     bottom: 0;
     left: 0;
     padding: 10px 0;
-    background: #eeea;
+    background: rgba(255,255,255, .75);
     width: 100%;
 }
 
 .book-item img {
     width: 100%;
     height: 100%;
+}
+
+.book-item .edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    width: 100%;
+    height: 100%;
+
+    background: #000a;
 }
 
 /*              */
@@ -154,12 +228,12 @@ form {
     padding-bottom: 0;
 }
 
-.form-group input {
-    padding: 5px; 
+.form-group input:not([type=submit]) {
     margin: 10px 0;
+    padding: 10px;
 
     border: 1px solid #ccc; 
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 /*                */
