@@ -22,21 +22,25 @@
     <header>
         <div class="container row">
             <h1>Book overflow</h1>
-            <ul class="row">
-                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                <li><a asp-area="" asp-controller="Book" asp-action="Index">My books</a></li>
-                <li><a asp-area="" asp-controller="User" asp-action="Register">Register</a></li>
-            </ul>
+                <ul class="row">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Book" asp-action="Index">My books</a></li>
+                    <li><a asp-area="" asp-controller="User" asp-action="Register">Register</a></li>
+                    <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
+                </ul>
+            </div>
         </div>
     </header>
 
-    <div class="container body-content">
+    <div class="body-content">
         @RenderBody()
         
-        <footer>
-            <hr />
-            <p>&copy; 2020 - BookOverflowASP</p>
-        </footer>
+        <div class="container">
+            <footer>
+                <hr />
+                <p>&copy; 2020 - BookOverflowASP</p>
+            </footer>
+        </div>
     </div>
 
     <environment include="Development">

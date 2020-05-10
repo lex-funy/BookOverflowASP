@@ -2,28 +2,24 @@
     ViewData["Title"] = "Overview";
 }
 
-<div class="row sb">
-    <h2>Your books</h2>
+<div class="container">
+    <div class="row sb">
+        <h2>Your books</h2>
 
-    <a asp-action="Create" class="btn add"><i class="fas fa-plus"></i></a>
+        <a asp-action="Create" class="btn add"><i class="fas fa-plus"></i></a>
+    </div>
+
+    <div class="book-items small row sb">
+        @foreach (var book in Model.Books)
+        {
+            <a asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id" class="book-item small">
+                <img src="https://picsum.photos/150/150" alt="Book Image">
+                <span class="price">@book.Price</span>
+                <span class="title">@book.Name</span>
+                <div class="hidden edit">
+                    <span class="btn">Edit</span>
+                </div>
+            </a>
+        }
+    </div>
 </div>
-
-<div class="book-items small row sb">
-    @foreach (var book in Model.Books)
-    {
-        <a asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id" class="book-item small">
-            <img src="https://picsum.photos/150/150" alt="Book Image">
-            <span class="price">@book.Price</span>
-            <span class="title">@book.Name</span>
-            <div class="hidden edit">
-                <span class="btn">Edit</span>
-            </div>
-        </a>
-    }
-</div>
-
-@section Scripts {
-<script>
-    
-</script>
-}

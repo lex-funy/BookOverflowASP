@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Admin";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<section>
+    <div class="container">
+        <div class="row sb">
+            <h3>Sector</h3>
+            <a asp-controller="Sector" asp-action="Create" class="btn add"><i class="fas fa-plus"></i></a>
+        </div>
+
+        <a asp-controller="Sector" class="btn">Sector overview</a>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row sb">
+            <h3>Course</h3>
+            <a asp-controller="Course" asp-action="Create" class="btn add"><i class="fas fa-plus"></i></a>
+        </div>
+
+        <a asp-controller="Course" class="btn">Course overview</a>
+    </div>
+</section>

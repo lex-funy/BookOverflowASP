@@ -1,10 +1,10 @@
-﻿@model BookModel
+@model SectorModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add sector";
 }
 
 <div class="container">
-    <h2>Book</h2>
+    <h2>@ViewData["Title"]</h2>
 </div>
 
 <section>
@@ -18,18 +18,6 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="QualityRating" class="control-label"></label>
-                <input asp-for="QualityRating" class="form-control" placeholder="Quality rating"/>
-
-                <span asp-validation-for="QualityRating" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" placeholder="Price"/>
-
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" class="btn" />
             </div>
         </form>
@@ -39,4 +27,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

@@ -14,6 +14,12 @@
     margin: 0 auto;
 }
 
+h2 {
+    margin-bottom: 25px;
+
+    color: #96c1e8;
+}
+
 li {
     list-style: none;
 }
@@ -49,11 +55,40 @@ a:hover {
     display: none!important ;
 }
 
+section {
+    padding: 30px;
+    margin: 0 auto 25px;
+    
+    max-width: 1200px;
+    
+    border-radius: 25px;
+    background: #f3f3f3;
+}
+
+.select {
+    margin-bottom: 5px;
+}
+
+.select:last-child {
+    margin-bottom: 0;
+}
+
+.select:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.select p {
+    display: flex;
+    align-items: center;;
+}
+
 /*                */
 /* Button styling */
 /*                */
 
 .btn {
+    display: inline-block;
+
     padding:6px 15px;
 	color:#ffffff;
     
@@ -62,10 +97,18 @@ a:hover {
     border:1px solid #ffffff;
 	border-radius:4px;
     font-size:15px;
+
+    width: fit-content;
+    height: fit-content;
 }
 
 .btn:hover {
+    cursor: pointer;
     background-color:#eb675e;
+}
+
+a.btn:hover {
+    text-decoration: none;
 }
 
 .btn:active {
@@ -74,11 +117,27 @@ a:hover {
 }
 
 .btn.add {
-    background: #7ad752;
+    background: #4dff4d;
 }
 
 .btn.add:hover {
-    background: #74c551;
+    background: #9aff9a;
+}
+
+.btn.remove {
+    background: #ff4d4d;
+}
+
+.btn.remove:hover {
+    background: #ff9a9a;
+}
+
+.btn.edit {
+    background: #ffc04d;
+}
+
+.btn.edit:hover {
+    background: #ffdb9a;
 }
 
 /*                */
@@ -214,10 +273,6 @@ header a {
 /* Form styling */
 /*              */
 
-form {
-    padding: 25px 0;
-}
-
 .form-group {
     display: flex; 
     flex-direction: column;
@@ -239,10 +294,6 @@ form {
 /*                */
 /* Footer styling */
 /*                */
-
-footer {
-    margin-top: 25px;
-}
 
 footer p {
     margin-top: 10px;

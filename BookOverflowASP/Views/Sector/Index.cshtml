@@ -1,0 +1,27 @@
+@model SectorListViewModel
+@{
+    ViewData["Title"] = "Sector overview";
+}
+
+<div class="container">
+    <div class="row sb">
+        <h2>@ViewData["Title"]</h2>
+        <a asp-controller="Sector" asp-action="Create" class="btn add"><i class="fas fa-plus"></i></a>
+    </div>
+</div>
+
+@* TODO: Make this look good *@
+<section>
+    <div class="container">
+        @foreach (var sector in Model.Sectors)
+        {
+            <div class="row sb select">
+                <p>@sector.Name</p>
+                <div class="row">
+                    <a class="btn edit"><i class="fas fa-edit"></i></a>
+                    <a class="btn remove"><i class="fas fa-trash-alt"></i></a>
+                </div>
+            </div>
+        }
+    </div>
+</section>
