@@ -1,0 +1,29 @@
+@model CourseModel
+@{
+    ViewData["Title"] = "Add course";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<section>
+    <div class="container">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" placeholder="Name"/>
+
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn" />
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

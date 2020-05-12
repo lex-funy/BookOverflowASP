@@ -1,4 +1,10 @@
-﻿/*              */
+﻿/*           */
+/* Add fonts */
+/*           */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/*              */
 /* Main styling */
 /*              */
 
@@ -6,7 +12,7 @@
     margin: 0;
     padding: 0;
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
 
 .container {
@@ -20,13 +26,16 @@ h2 {
     color: #96c1e8;
 }
 
+p {
+    font-weight: 300;
+}
+
 li {
     list-style: none;
 }
 
-.row {
-    display: flex;
-    flex-direction: row;
+.fg {
+    flex-grow: 1;
 }
 
 .sa {
@@ -66,7 +75,12 @@ section {
 }
 
 .select {
+    padding: 5px 5px 5px 10px;
     margin-bottom: 5px;
+
+    background: white;
+    
+    border-radius: 5px;
 }
 
 .select:last-child {
@@ -94,7 +108,7 @@ section {
     
 	background-color:#e4685d;
     
-    border:1px solid #ffffff;
+    border: 0;
 	border-radius:4px;
     font-size:15px;
 
@@ -254,7 +268,7 @@ header a {
     height: 100%;
 }
 
-.book-item .edit {
+.book-item div.edit-remove {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -265,8 +279,6 @@ header a {
     
     width: 100%;
     height: 100%;
-
-    background: #000a;
 }
 
 /*              */
@@ -289,6 +301,67 @@ header a {
 
     border: 1px solid #ccc; 
     border-radius: 3px;
+}
+
+/*                      */
+/* Row / Column styling */
+/*                      */
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.row .btn {
+    margin-right: 5px;
+}
+
+.row .btn:last-child {
+    margin-right: 0;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+/*                */
+/* Pop-up styling */
+/*                */
+
+.pop-up {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 100;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(0,0,0, 0.8);
+
+    display: flex;
+}
+
+.pop-up .inner {
+    padding: 25px;
+    margin: auto;
+
+    width: fit-content;
+    max-width: 1000px;;
+
+    background: #fff;
+
+    border-radius: 15px;
+}
+
+.pop-up .row {
+    width: 100%;
+}
+
+.pop-up p {
+    margin-bottom: 25px;
 }
 
 /*                */

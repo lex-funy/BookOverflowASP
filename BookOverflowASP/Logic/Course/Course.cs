@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace BookOverflowASP.Logic
 {
-    public class Sector
+    public class Course
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -15,18 +15,18 @@ namespace BookOverflowASP.Logic
         public DateTime DeletedAt { get; set; }
         public User DeletedBy { get; set; }
 
-        public Sector() { }
+        public Course() { }
 
-        public Sector(SectorDTO sectorDTO)
+        public Course(CourseDTO courseDTO)
         {
-            this.Id = sectorDTO.Id;
-            this.Name = sectorDTO.Name;
-            this.CreatedAt = sectorDTO.CreatedAt;
-            this.DeletedAt = sectorDTO.DeletedAt;
-            this.DeletedBy = UserContainer.GetUserById(sectorDTO.DeletedBy);            
+            this.Id = courseDTO.Id;
+            this.Name = courseDTO.Name;
+            this.CreatedAt = courseDTO.CreatedAt;
+            this.DeletedAt = courseDTO.DeletedAt;
+            this.DeletedBy = UserContainer.GetUserById(courseDTO.DeletedBy);            
         }
 
-        public Sector(SectorModel sectorModel) 
+        public Course(CourseModel courseModel) 
         {
             throw new NotImplementedException();
         }

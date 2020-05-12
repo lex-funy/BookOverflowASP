@@ -12,14 +12,29 @@
     <div class="book-items small row sb">
         @foreach (var book in Model.Books)
         {
-            <a asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id" class="book-item small">
-                <img src="https://picsum.photos/150/150" alt="Book Image">
-                <span class="price">@book.Price</span>
-                <span class="title">@book.Name</span>
-                <div class="hidden edit">
-                    <span class="btn">Edit</span>
+            <div>
+                <div class="book-item small">
+                    <img src="https://picsum.photos/150/150" alt="Book Image">
+                    <span class="price">@book.Price</span>
+                    <span class="title">@book.Name</span>
+                    <div class="edit-remove hidden">
+                        <div class="row">
+                            <a asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id" class="btn edit"><i class="fas fa-edit"></i></a>
+                            <a class="btn remove"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                    </div>
                 </div>
-            </a>
+
+                <div class="pop-up hidden">
+                    <div class="pop-up-inner inner col">
+                        <p>Are you sure you want to remove @book.Name</p>
+                        <div class="row sb">
+                            <a asp-controller="Book" asp-action="Remove" asp-route-id="@book.Id" class="btn remove">Yes, remove</a>
+                            <span class="btn">No, don't remove</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
     </div>
 </div>

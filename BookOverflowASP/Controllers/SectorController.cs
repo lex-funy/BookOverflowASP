@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BookOverflowASP.Models;
 using BookOverflowASP.Logic;
+using Microsoft.AspNetCore.Http;
+
 
 namespace BookOverflowASP.Controllers
 {
@@ -12,6 +14,11 @@ namespace BookOverflowASP.Controllers
     {
         public IActionResult Index()
         {
+            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            {
+                return RedirectToAction("Login", "User");
+            }
+            
             List<Sector> sectors = SectorContainer.GetAll();
             
             // FIXME: Kan dit beter ?
@@ -34,16 +41,68 @@ namespace BookOverflowASP.Controllers
         [HttpGet]
         public IActionResult Create() 
         {
+            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            {
+                return RedirectToAction("Login", "User");
+            }
+
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(SectorModel sectorModel)
         {
-            // TODO: Store the sector in the database
+            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            {
+                return RedirectToAction("Login", "User");
+            }
+
             SectorContainer.Save(sectorModel);
 
-            // FIXME: Redirect
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id) 
+        {
+            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            Sector sector = SectorContainer.GetSectorById(id);
+
+            SectorModel sectorModel = new SectorModel();
+
+            sectorModel.Id = sector.Id;
+            sectorModel.Name = sector.Name;
+
+            return View(sectorModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(SectorModel sectorModel)
+        {
+            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (SectorContainer.Update(sectorModel)) 
+                return RedirectToAction("Index");
+            return RedirectToAction("Edit", sectorModel.Id);
+        }
+
+        public IActionResult Remove(int id) 
+        {
+            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext))     
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            // TODO: Add validation message
+            SectorContainer.Remove(id, SessionHandler.GetUserID(HttpContext));
+
             return RedirectToAction("Index");
         }
     }

@@ -7,6 +7,7 @@ namespace BookOverflowASP.Logic
 {
     public enum PermissionType
     {
+        None = 0,
         User = 100,
         Admin = 500
     }

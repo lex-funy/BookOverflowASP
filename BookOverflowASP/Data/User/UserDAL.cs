@@ -1,7 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using BookOverflowASP.Logic;
+using BookOverflowASP.Models;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +12,8 @@ namespace BookOverflowASP.Data
     {
         public static bool Save(UserDTO user)
         {
+            // TODO: Check if the entered email already exists.
+
             Database database = new Database();
 
             if (!database.OpenConnection())
@@ -43,7 +46,6 @@ namespace BookOverflowASP.Data
             if (!database.OpenConnection())
                 // FIXME: throw exception;
                 return null;
-
             
             if (limit == -1) 
             {
@@ -94,19 +96,30 @@ namespace BookOverflowASP.Data
             MySqlDataReader result = database.command.ExecuteReader();
 
             UserDTO user = new UserDTO();
-
             while (result.Read())
             {
                 user.Id = result.GetInt16(0); // ID
-                user.Image = result.GetInt16(1); // image_id
+                try {
+                    user.Image = result.GetInt16(1); // image_id
+                } catch (Exception) {}
                 user.Email = result.GetString(2); // email
                 user.Password = result.GetString(3); // password
                 user.FirstName = result.GetString(4); // first_name
-                user.Insertion = result.GetString(5); // insertion
+                try {
+                    user.Insertion = result.GetString(5); // insertion
+                } catch (Exception) {}
                 user.LastName = result.GetString(6); // last_name
                 user.Permission = result.GetInt16(7); // permission
-                user.ZipCode = result.GetString(8); // zip_code
+                try {
+                    user.ZipCode = result.GetString(8); // zip_code
+                } catch (Exception) {}
                 user.CreatedAt = result.GetDateTime(9); // created_at
+                try {
+                    user.DeletedAt = result.GetDateTime(10); // deleted_At
+                } catch (Exception) {}
+                try {
+                    user.DeletedBy = result.GetInt32(11); // deleted_by
+                } catch (Exception) {}
             }
 
             return user;
@@ -148,6 +161,45 @@ namespace BookOverflowASP.Data
             }
 
             return users;
+        }
+
+        public static UserDTO GetByEmailAndPassword(UserLoginModel userLoginModel)
+        {
+            Database database = new Database();
+
+            if (!database.OpenConnection())
+                // FIXME: Throw exception;
+                return new UserDTO();
+            
+            database.command.CommandText = "SELECT * FROM users WHERE email = @email AND password = @password AND deleted_at IS NULL";
+            
+            database.command.Parameters.AddWithValue("email", userLoginModel.Email);
+            database.command.Parameters.AddWithValue("password", userLoginModel.Password);
+
+            MySqlDataReader result = database.command.ExecuteReader();
+
+            UserDTO user = new UserDTO();
+            while (result.Read())
+            {
+                user.Id = result.GetInt16(0); // ID
+                try {
+                    user.Image = result.GetInt16(1); // image_id
+                } catch (Exception) {}
+                user.Email = result.GetString(2); // email
+                user.Password = result.GetString(3); // password
+                user.FirstName = result.GetString(4); // first_name
+                try {
+                    user.Insertion = result.GetString(5); // insertion
+                } catch (Exception) {}
+                user.LastName = result.GetString(6); // last_name
+                user.Permission = result.GetInt16(7); // permission
+                try {
+                    user.ZipCode = result.GetString(8); // zip_code
+                } catch (Exception) {}
+                user.CreatedAt = result.GetDateTime(9); // created_at
+            }
+
+            return user;
         }
     }
 }

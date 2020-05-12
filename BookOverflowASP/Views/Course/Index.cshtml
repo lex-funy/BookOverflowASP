@@ -1,7 +1,39 @@
+@model CourseListViewModel
 @{
     ViewData["Title"] = "Course overview";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="container">
+    <div class="row sb">
+        <h2>@ViewData["Title"]</h2>
+        <a asp-controller="Course" asp-action="Create" class="btn add"><i class="fas fa-plus"></i></a>
+    </div>
+</div>
 
-@* TODO: Show all the current Courses *@
+@* TODO: Make this look good *@
+<section>
+    <div class="container">
+        @foreach (var course in Model.Courses)
+        {
+            <div>
+                <div class="row sb select">
+                    <p>@course.Name</p>
+                    <div class="row">   
+                        <a asp-action="edit" asp-route-id="@course.Id" class="btn edit"><i class="fas fa-edit"></i></a>
+                        <a class="btn remove remove-course"><i class="fas fa-trash-alt"></i></a>
+                    </div>
+                </div>
+
+                <div class="pop-up hidden">
+                    <div class="pop-up-inner inner col">
+                        <p>Are you sure you want to remove "@course.Name"</p>
+                        <div class="row sb">
+                            <a asp-controller="Course" asp-action="Remove" asp-route-id="@course.Id" class="btn remove">Yes, remove</a>
+                            <span class="btn">No, don't remove</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

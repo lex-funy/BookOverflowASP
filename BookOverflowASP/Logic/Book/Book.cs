@@ -10,6 +10,7 @@ namespace BookOverflowASP.Logic
     public class Book
     {
         public int Id { get; set; }
+        public User User { get; set; }
         public string Name { get; set; }
         public int QualityRating { get; set; }
         public double Price { get; set; }
@@ -21,6 +22,7 @@ namespace BookOverflowASP.Logic
         public Book(BookDTO bookDTO)
         {
             this.Id = bookDTO.Id;
+            // this.User = UserContainer.GetUserById(bookDTO.Id);
             this.Name = bookDTO.Name;
             this.QualityRating = bookDTO.QualityRating;
             this.Price = bookDTO.Price;

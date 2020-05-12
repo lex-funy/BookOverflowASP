@@ -1,4 +1,21 @@
-﻿<!DOCTYPE html>
+﻿@* FIXME: Dit moet anders kunnen ?? *@
+@using Microsoft.AspNetCore.Http
+@using BookOverflowASP.Logic;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    PermissionType permission;
+    if (HttpContextAccessor.HttpContext.Session.GetInt32("permission") != null) 
+    {
+        permission = (PermissionType)HttpContextAccessor.HttpContext.Session.GetInt32("permission");
+    }
+    else 
+    {
+        permission = PermissionType.None; 
+    }
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -22,11 +39,33 @@
     <header>
         <div class="container row">
             <h1>Book overflow</h1>
-                <ul class="row">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Book" asp-action="Index">My books</a></li>
-                    <li><a asp-area="" asp-controller="User" asp-action="Register">Register</a></li>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
+                <ul class="row fg sb">
+                    @if (permission == PermissionType.None) {
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <div class="row">
+                            <li><a asp-area="" asp-controller="User" asp-action="Register">Register</a></li>
+                            <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
+                        </div>
+                    }
+                    @if (permission == PermissionType.User) {
+                        <div class="row">
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-area="" asp-controller="Book" asp-action="Index">My books</a></li>
+                        </div>
+                        <div class="row">
+                            <li><a asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
+                        </div>
+                    }
+                    @if (permission == PermissionType.Admin) {
+                        <div class="row">
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-area="" asp-controller="Book" asp-action="Index">My books</a></li>
+                        </div>
+                        <div class="row">
+                            <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
+                            <li><a asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
+                        </div>
+                    }
                 </ul>
             </div>
         </div>

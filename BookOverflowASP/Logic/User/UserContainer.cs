@@ -25,11 +25,21 @@ namespace BookOverflowASP.Logic
 
         public static User GetUserById(int id)
         {
+            if (id == 0) {
+                return new User();
+            }
             UserDTO userDto = UserDAL.GetById(id);
 
             User user = new User(userDto);
 
             return user;
+        }
+
+        public static User GetByEmailAndPassword(UserLoginModel userLoginModel) 
+        {
+            UserDTO userDto = UserDAL.GetByEmailAndPassword(userLoginModel);
+
+            return new User(userDto);
         }
 
         public static bool Save(UserModel user)

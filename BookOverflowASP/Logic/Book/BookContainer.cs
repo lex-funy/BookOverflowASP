@@ -54,5 +54,10 @@ namespace BookOverflowASP.Logic
         {
             return BookDAL.Update(new BookDTO(book));
         }
+
+        public static bool Remove(int bookId, int userId) 
+        {
+            return BookDAL.Remove(bookId, userId);
+        }
     }
 }

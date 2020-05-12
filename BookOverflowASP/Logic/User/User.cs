@@ -8,22 +8,40 @@ using System.Collections.Generic;
 namespace BookOverflowASP.Logic
 {
     public class User
-    {
+    {        
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int QualityRating { get; set; }
-        public double Price { get; set; }
+
+        // TODO: Implement Image
+        public int Image { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string FirstName { get; set; }
+        public string Insertion { get; set; }
+        public string LastName { get; set; }
+        public PermissionType Permission { get; set; }
+        public string ZipCode { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime DeletedAt { get; set; }
+        public User DeletedBy { get; set; }
 
         public User() { }
 
-        public User(UserDTO UserDTO)
+        public User(UserDTO userDTO)
         {
-            throw new NotImplementedException();
+            this.Id = userDTO.Id;
+            this.Image = userDTO.Image;
+            this.Password = userDTO.Password;
+            this.FirstName = userDTO.FirstName;
+            this.Insertion = userDTO.Insertion;
+            this.LastName = userDTO.LastName;
+            this.Permission = (PermissionType)userDTO.Permission;
+            this.ZipCode = userDTO.ZipCode;
+            this.CreatedAt = userDTO.CreatedAt;
+            this.DeletedAt = userDTO.DeletedAt;
+            this.DeletedBy = UserContainer.GetUserById(userDTO.DeletedBy);
         }
 
-        public User(UserModel UserModel) 
+        public User(UserModel userModel) 
         {
             throw new NotImplementedException();
         }

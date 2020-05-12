@@ -82,6 +82,8 @@ namespace BookOverflowASP.Data
             {
                 BookDTO temp = new BookDTO();
 
+                // Vraag 1: Hier ID ophalen
+
                 temp.Id = result.GetInt16(0); // ID
                 //temp.Course = result.GetInt32(1); // ID
                 //temp.User = result.GetInt32(2); // ID
@@ -173,6 +175,28 @@ namespace BookOverflowASP.Data
             }
 
             return item;
+        }
+
+        public static bool Remove(int bookId, int userId)
+        {
+            Database database = new Database();
+
+            if (!database.OpenConnection())
+                // FIXME: throw exception;
+                return false;
+
+            database.command.CommandText = "UPDATE books SET deleted_at=@deleted_at, deleted_by=@deleted_by WHERE id = @id";
+
+            database.command.Parameters.AddWithValue("deleted_at", DateTime.Now);
+            database.command.Parameters.AddWithValue("deleted_by", userId);
+
+            database.command.Parameters.AddWithValue("id", bookId);
+
+            int affectedRows = database.command.ExecuteNonQuery();
+
+            if (affectedRows > 0)
+                return true;
+            return false;
         }
     }
 }

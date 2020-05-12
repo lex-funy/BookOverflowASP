@@ -15,11 +15,23 @@
     <div class="container">
         @foreach (var sector in Model.Sectors)
         {
-            <div class="row sb select">
-                <p>@sector.Name</p>
-                <div class="row">
-                    <a class="btn edit"><i class="fas fa-edit"></i></a>
-                    <a class="btn remove"><i class="fas fa-trash-alt"></i></a>
+            <div>
+                <div class="row sb select">
+                    <p>@sector.Name</p>
+                    <div class="row">   
+                        <a asp-action="edit" asp-route-id="@sector.Id" class="btn edit"><i class="fas fa-edit"></i></a>
+                        <a class="btn remove remove-sector"><i class="fas fa-trash-alt"></i></a>
+                    </div>
+                </div>
+
+                <div class="pop-up hidden">
+                    <div class="pop-up-inner inner col">
+                        <p>Are you sure you want to remove "@sector.Name"</p>
+                        <div class="row sb">
+                            <a asp-controller="Sector" asp-action="Remove" asp-route-id="@sector.Id" class="btn remove">Yes, remove</a>
+                            <span class="btn">No, don't remove</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         }

@@ -25,12 +25,22 @@ namespace BookOverflowASP.Logic
 
         public static Sector GetSectorById(int id)
         {
-            throw new NotImplementedException();
+            return new Sector(SectorDAL.GetById(id));
         }
 
         public static bool Save(SectorModel sectorModel)
         {
             return SectorDAL.Save(new SectorDTO(sectorModel));
+        }
+
+        public static bool Update(SectorModel sectorModel)
+        {
+            return SectorDAL.Update(new SectorDTO(sectorModel));
+        }
+
+        public static bool Remove(int sectorId, int userId) 
+        {
+            return SectorDAL.Remove(sectorId, userId);
         }
     }
 }
