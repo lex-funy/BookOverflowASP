@@ -79,6 +79,8 @@ namespace BookOverflowASP.Data
                 users.Add(temp);
             }
 
+            database.CloseConnection();
+
             return users;
         }
 
@@ -122,6 +124,8 @@ namespace BookOverflowASP.Data
                 } catch (Exception) {}
             }
 
+            database.CloseConnection();
+
             return user;
         }
 
@@ -159,6 +163,8 @@ namespace BookOverflowASP.Data
 
                 users.Add(temp);
             }
+
+            database.CloseConnection();
 
             return users;
         }
@@ -198,6 +204,8 @@ namespace BookOverflowASP.Data
                 } catch (Exception) {}
                 user.CreatedAt = result.GetDateTime(9); // created_at
             }
+
+            database.CloseConnection();
 
             return user;
         }

@@ -27,6 +27,8 @@ namespace BookOverflowASP.Data
 
             int result = database.command.ExecuteNonQuery();
 
+            database.CloseConnection();
+
             if (result > 0)
                 return true;
             return false;
@@ -50,6 +52,8 @@ namespace BookOverflowASP.Data
             database.command.Parameters.AddWithValue("price", bookDto.Price);
 
             int result = database.command.ExecuteNonQuery();
+
+            database.CloseConnection();
 
             if (result > 0)
                 return true;
@@ -80,23 +84,10 @@ namespace BookOverflowASP.Data
             List<BookDTO> items = new List<BookDTO>();
             while (result.Read())
             {
-                BookDTO temp = new BookDTO();
-
-                // Vraag 1: Hier ID ophalen
-
-                temp.Id = result.GetInt16(0); // ID
-                //temp.Course = result.GetInt32(1); // ID
-                //temp.User = result.GetInt32(2); // ID
-                //temp.Sector = result.GetInt32(3); // ID
-                temp.Name = result.GetString(4); // ID
-                temp.QualityRating = result.GetInt32(5); // ID
-                temp.Price = result.GetInt32(6); // ID
-                temp.CreatedAt = result.GetDateTime(7); // ID
-                //temp.DeletedAt = result.GetDateTime(8); // ID
-                //temp.DeletedBy = result.GetInt32(9); // ID
-
-                items.Add(temp);
+                items.Add(new BookDTO(result));
             }
+
+            database.CloseConnection();
 
             return items;
         }
@@ -120,27 +111,15 @@ namespace BookOverflowASP.Data
                 database.command.Parameters.AddWithValue("limit", limit);
             }
 
-
             MySqlDataReader result = database.command.ExecuteReader();
 
             List<BookDTO> items = new List<BookDTO>();
             while (result.Read())
             {
-                BookDTO temp = new BookDTO();
-
-                temp.Id = result.GetInt16(0); // ID
-                //temp.Course = result.GetInt32(1); // ID
-                //temp.User = result.GetInt32(2); // ID
-                //temp.Sector = result.GetInt32(3); // ID
-                temp.Name = result.GetString(4); // ID
-                temp.QualityRating = result.GetInt32(5); // ID
-                temp.Price = result.GetInt32(6); // ID
-                temp.CreatedAt = result.GetDateTime(7); // ID
-                //temp.DeletedAt = result.GetDateTime(8); // ID
-                //temp.DeletedBy = result.GetInt32(9); // ID
-
-                items.Add(temp);
+                items.Add(new BookDTO(result));
             }
+
+            database.CloseConnection();
 
             return items;
         }
@@ -159,22 +138,14 @@ namespace BookOverflowASP.Data
 
             MySqlDataReader result = database.command.ExecuteReader();
 
-            BookDTO item = new BookDTO();
             while (result.Read())
             {
-                item.Id = result.GetInt16(0); // ID
-                //item.Course = result.GetInt32(1); // Course ID
-                //item.User = result.GetInt32(2); // User ID
-                //item.Sector = result.GetInt32(3); // Sector ID
-                item.Name = result.GetString(4); // Name
-                item.QualityRating = result.GetInt32(5); // QualityRating
-                item.Price = result.GetInt32(6); // Price
-                item.CreatedAt = result.GetDateTime(7); // CreatedAt
-                //item.DeletedAt = result.GetDateTime(8); // DeletedAt
-                //item.DeletedBy = result.GetInt32(9); // DeletedBy
+                return new BookDTO(result);
             }
 
-            return item;
+            database.CloseConnection();
+
+            return new BookDTO();
         }
 
         public static bool Remove(int bookId, int userId)
@@ -193,6 +164,8 @@ namespace BookOverflowASP.Data
             database.command.Parameters.AddWithValue("id", bookId);
 
             int affectedRows = database.command.ExecuteNonQuery();
+
+            database.CloseConnection();
 
             if (affectedRows > 0)
                 return true;

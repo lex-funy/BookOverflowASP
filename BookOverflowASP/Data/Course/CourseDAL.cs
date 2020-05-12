@@ -25,6 +25,8 @@ namespace BookOverflowASP.Data
 
             int result = database.command.ExecuteNonQuery();
 
+            database.CloseConnection();
+
             if (result > 0)
                 return true;
             return false;
@@ -66,6 +68,8 @@ namespace BookOverflowASP.Data
                 items.Add(temp);
             }
 
+            database.CloseConnection();
+
             return items;
         }
 
@@ -97,6 +101,8 @@ namespace BookOverflowASP.Data
                 } catch (Exception) {}
             }
 
+            database.CloseConnection();
+
             return item;
         }
 
@@ -117,6 +123,8 @@ namespace BookOverflowASP.Data
             database.command.Parameters.AddWithValue("id", courseDto.Id);
 
             int result = database.command.ExecuteNonQuery();
+
+            database.CloseConnection();
 
             if (result > 0)
                 return true;
@@ -139,6 +147,8 @@ namespace BookOverflowASP.Data
             database.command.Parameters.AddWithValue("id", courseId);
 
             int affectedRows = database.command.ExecuteNonQuery();
+
+            database.CloseConnection();
 
             if (affectedRows > 0)
                 return true;

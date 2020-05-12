@@ -14,9 +14,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Index()
         {
             if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             BookIndexViewModel bivm = new BookIndexViewModel();
             bivm.Books = new List<BookModel>();

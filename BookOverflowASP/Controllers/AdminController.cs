@@ -12,9 +12,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Index()
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             return View();
         }

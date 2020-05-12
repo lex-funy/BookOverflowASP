@@ -11,6 +11,8 @@ namespace BookOverflowASP.Logic
     {
         public int Id { get; set; }
         public User User { get; set; }
+        public Course Course { get; set; }
+        public Sector Sector { get; set; }
         public string Name { get; set; }
         public int QualityRating { get; set; }
         public double Price { get; set; }
@@ -22,7 +24,9 @@ namespace BookOverflowASP.Logic
         public Book(BookDTO bookDTO)
         {
             this.Id = bookDTO.Id;
-            // this.User = UserContainer.GetUserById(bookDTO.Id);
+            this.User = UserContainer.GetUserById(bookDTO.User);
+            this.Course = CourseContainer.GetCourseById(bookDTO.Course);
+            this.Sector = SectorContainer.GetSectorById(bookDTO.Sector);
             this.Name = bookDTO.Name;
             this.QualityRating = bookDTO.QualityRating;
             this.Price = bookDTO.Price;

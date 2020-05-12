@@ -15,9 +15,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Index()
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
             
             List<Sector> sectors = SectorContainer.GetAll();
             
@@ -42,9 +40,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Create() 
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             return View();
         }
@@ -53,9 +49,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Create(SectorModel sectorModel)
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             SectorContainer.Save(sectorModel);
 
@@ -66,9 +60,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Edit(int id) 
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             Sector sector = SectorContainer.GetSectorById(id);
 
@@ -84,9 +76,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Edit(SectorModel sectorModel)
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             if (SectorContainer.Update(sectorModel)) 
                 return RedirectToAction("Index");
@@ -96,9 +86,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Remove(int id) 
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext))     
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             // TODO: Add validation message
             SectorContainer.Remove(id, SessionHandler.GetUserID(HttpContext));

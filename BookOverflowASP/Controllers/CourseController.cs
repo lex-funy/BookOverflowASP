@@ -15,9 +15,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Index()
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
             
             List<Course> courses = CourseContainer.GetAll();
             
@@ -42,9 +40,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Create() 
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             return View();
         }
@@ -53,9 +49,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Create(CourseModel courseModel)
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             CourseContainer.Save(courseModel);
 
@@ -66,9 +60,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Edit(int id) 
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             Course course = CourseContainer.GetCourseById(id);
 
@@ -84,9 +76,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Edit(CourseModel courseModel)
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             if (CourseContainer.Update(courseModel)) 
                 return RedirectToAction("Index");
@@ -96,9 +86,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Remove(int id) 
         {
             if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext))     
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             // TODO: Add validation message
             CourseContainer.Remove(id, SessionHandler.GetUserID(HttpContext));

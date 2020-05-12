@@ -14,9 +14,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Index()
         {
             if (!Middleware.CheckUserPermission(PermissionType.User, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             return View();
         }
@@ -25,9 +23,10 @@ namespace BookOverflowASP.Controllers
         public IActionResult Register() 
         {
             if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
+            if (SessionHandler.GetUserID(HttpContext) != 0)
+                return RedirectToAction("Index", "Home");
+
 
             return View();
         }
@@ -35,9 +34,9 @@ namespace BookOverflowASP.Controllers
         public IActionResult Register(UserModel userModel)
         {
             if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
+            if (SessionHandler.GetUserID(HttpContext) != 0)
+                return RedirectToAction("Index", "Home");
 
             // TODO: Hash the password;
             UserContainer.Save(userModel);
@@ -51,9 +50,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Login()
         {
             if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             return View();
         }
@@ -62,9 +59,7 @@ namespace BookOverflowASP.Controllers
         public IActionResult Login(UserLoginModel userLoginModel)
         {
             if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             // TODO: Hash the password;
             User user = UserContainer.GetByEmailAndPassword(userLoginModel);
@@ -72,17 +67,13 @@ namespace BookOverflowASP.Controllers
             SessionHandler.SetUserId(user.Id, HttpContext);
             SessionHandler.SetPermission(user.Permission, HttpContext);
 
-            if (user.Permission == PermissionType.Admin)
-                return RedirectToAction("Index", "Admin");
-            return RedirectToAction("Index", "Book");
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         public IActionResult Logout()
         {
             if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
-            {
                 return RedirectToAction("Login", "User");
-            }
 
             SessionHandler.ClearSession(HttpContext);
 

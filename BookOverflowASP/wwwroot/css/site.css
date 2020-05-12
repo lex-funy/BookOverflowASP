@@ -106,7 +106,7 @@ section {
     padding:6px 15px;
 	color:#ffffff;
     
-	background-color:#e4685d;
+	background-color:#96c1e8;
     
     border: 0;
 	border-radius:4px;
@@ -118,7 +118,7 @@ section {
 
 .btn:hover {
     cursor: pointer;
-    background-color:#eb675e;
+    background-color:#d5e6f6;
 }
 
 a.btn:hover {
@@ -130,12 +130,12 @@ a.btn:hover {
     top:1px;
 }
 
-.btn.add {
-    background: #4dff4d;
+.btn.add, input[type=submit].btn {
+    background: #64e764;
 }
 
-.btn.add:hover {
-    background: #9aff9a;
+.btn.add:hover, input[type=submit].btn:hover {
+    background: #a6f1a6;
 }
 
 .btn.remove {
