@@ -6,45 +6,57 @@ using BookOverflowASP.Library.Data;
 
 namespace BookOverflowASP.Library.Logic
 {
-    public class UserContainer
+    public class UserContainer : IUserContainer
     {
-        public static List<User> GetAllUsers(int limit = -1)
+        private readonly IUserDAL _userDAL;
+
+        public UserContainer(IUserDAL userDAL)
         {
-            List<UserDTO> usersDto = UserDAL.GetAll(limit);
+            this._userDAL = userDAL;
+        }
+
+        public List<User> GetAllUsers(int limit = -1)
+        {
+            List<UserDTO> usersDto = this._userDAL.GetAll(limit);
 
             List<User> users = new List<User>();
             foreach (UserDTO user in usersDto)
             {
-                users.Add(new User(user));
+                User deletedBy = this.GetUserById(user.DeletedBy);
+
+                users.Add(new User(user, deletedBy));
             }
 
             return users;
         }
 
-        public static User GetUserById(int id)
+        public User GetUserById(int id)
         {
-            if (id == 0) {
+            if (id == 0)
                 return new User();
-            }
 
-            UserDTO userDto = UserDAL.GetById(id);
+            UserDTO userDto = this._userDAL.GetById(id);
 
-            
-            User user = new User(userDto);
+            // Possible infinite loop
+            User deletedBy = this.GetUserById(userDto.DeletedBy);
+
+            User user = new User(userDto, deletedBy);
 
             return user;
         }
 
-        public static User GetByEmailAndPassword(User user) 
+        public User GetByEmailAndPassword(User user)
         {
-            UserDTO userDto = UserDAL.GetByEmailAndPassword(new UserDTO(user));
+            UserDTO userDto = this._userDAL.GetByEmailAndPassword(new UserDTO(user));
 
-            return new User(userDto);
+            User deletedBy = this.GetUserById(userDto.DeletedBy);
+
+            return new User(userDto, deletedBy);
         }
 
-        public static bool Save(User user)
+        public bool Save(User user)
         {
-            return UserDAL.Save(new UserDTO(user));
+            return this._userDAL.Save(new UserDTO(user));
         }
     }
 }

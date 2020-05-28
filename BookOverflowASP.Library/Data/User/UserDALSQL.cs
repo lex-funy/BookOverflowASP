@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookOverflowASP.Library.Data
 {
-    public class UserDAL
+    public class UserDALSQL : IUserDAL
     {
-        public static bool Save(UserDTO user)
+        public bool Save(UserDTO user)
         {
             // TODO: Check if the entered email already exists.
 
@@ -38,19 +38,19 @@ namespace BookOverflowASP.Library.Data
             return false;
         }
 
-        public static List<UserDTO> GetAll(int limit)
+        public List<UserDTO> GetAll(int limit)
         {
             Database database = new Database();
 
             if (!database.OpenConnection())
                 // FIXME: throw exception;
                 return null;
-            
-            if (limit == -1) 
+
+            if (limit == -1)
             {
                 database.command.CommandText = "SELECT * FROM users WHERE deleted_at IS NULL";
-            } 
-            else 
+            }
+            else
             {
                 database.command.CommandText = "SELECT * FROM users WHERE deleted_at IS NULL LIMIT @limit";
 
@@ -83,7 +83,7 @@ namespace BookOverflowASP.Library.Data
             return users;
         }
 
-        public static UserDTO GetById(int id)
+        public UserDTO GetById(int id)
         {
             Database database = new Database();
 
@@ -100,27 +100,37 @@ namespace BookOverflowASP.Library.Data
             while (result.Read())
             {
                 user.Id = result.GetInt16(0); // ID
-                try {
+                try
+                {
                     user.Image = result.GetInt16(1); // image_id
-                } catch (Exception) {}
+                }
+                catch (Exception) { }
                 user.Email = result.GetString(2); // email
                 user.Password = result.GetString(3); // password
                 user.FirstName = result.GetString(4); // first_name
-                try {
+                try
+                {
                     user.Insertion = result.GetString(5); // insertion
-                } catch (Exception) {}
+                }
+                catch (Exception) { }
                 user.LastName = result.GetString(6); // last_name
                 user.Permission = result.GetInt16(7); // permission
-                try {
+                try
+                {
                     user.ZipCode = result.GetString(8); // zip_code
-                } catch (Exception) {}
+                }
+                catch (Exception) { }
                 user.CreatedAt = result.GetDateTime(9); // created_at
-                try {
+                try
+                {
                     user.DeletedAt = result.GetDateTime(10); // deleted_At
-                } catch (Exception) {}
-                try {
+                }
+                catch (Exception) { }
+                try
+                {
                     user.DeletedBy = result.GetInt32(11); // deleted_by
-                } catch (Exception) {}
+                }
+                catch (Exception) { }
             }
 
             database.CloseConnection();
@@ -128,7 +138,7 @@ namespace BookOverflowASP.Library.Data
             return user;
         }
 
-        public static List<UserDTO> GetAllByName(string firstName, string insertion, string lastName)
+        public List<UserDTO> GetAllByName(string firstName, string insertion, string lastName)
         {
             Database database = new Database();
 
@@ -168,16 +178,16 @@ namespace BookOverflowASP.Library.Data
             return users;
         }
 
-        public static UserDTO GetByEmailAndPassword(UserDTO userDTO)
+        public UserDTO GetByEmailAndPassword(UserDTO userDTO)
         {
             Database database = new Database();
 
             if (!database.OpenConnection())
                 // FIXME: Throw exception;
                 return new UserDTO();
-            
+
             database.command.CommandText = "SELECT * FROM users WHERE email = @email AND password = @password AND deleted_at IS NULL";
-            
+
             database.command.Parameters.AddWithValue("email", userDTO.Email);
             database.command.Parameters.AddWithValue("password", userDTO.Password);
 
@@ -187,20 +197,26 @@ namespace BookOverflowASP.Library.Data
             while (result.Read())
             {
                 outputUserDTO.Id = result.GetInt16(0); // ID
-                try {
+                try
+                {
                     outputUserDTO.Image = result.GetInt16(1); // image_id
-                } catch (Exception) {}
+                }
+                catch (Exception) { }
                 outputUserDTO.Email = result.GetString(2); // email
                 outputUserDTO.Password = result.GetString(3); // password
                 outputUserDTO.FirstName = result.GetString(4); // first_name
-                try {
+                try
+                {
                     outputUserDTO.Insertion = result.GetString(5); // insertion
-                } catch (Exception) {}
+                }
+                catch (Exception) { }
                 outputUserDTO.LastName = result.GetString(6); // last_name
                 outputUserDTO.Permission = result.GetInt16(7); // permission
-                try {
+                try
+                {
                     outputUserDTO.ZipCode = result.GetString(8); // zip_code
-                } catch (Exception) {}
+                }
+                catch (Exception) { }
                 outputUserDTO.CreatedAt = result.GetDateTime(9); // created_at
             }
 

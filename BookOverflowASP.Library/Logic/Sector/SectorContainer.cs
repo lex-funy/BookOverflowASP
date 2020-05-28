@@ -7,39 +7,53 @@ using BookOverflowASP.Library.Logic;
 
 namespace BookOverflowASP.Library.Logic
 {
-    public class SectorContainer
+    public class SectorContainer : ISectorContainer
     {
-        public static List<Sector> GetAll(int limit = -1)
+        private readonly ISectorDAL _sectorDAL;
+        private readonly IUserContainer _userContainer;
+
+        public SectorContainer(ISectorDAL sectorDAL, IUserContainer userContainer)
         {
-            List<SectorDTO> sectorsDto = SectorDAL.GetAll(limit);
+            this._sectorDAL = sectorDAL;
+            this._userContainer = userContainer;
+        }
+
+        public List<Sector> GetAll(int limit = -1)
+        {
+            List<SectorDTO> sectorsDto = this._sectorDAL.GetAll(limit);
 
             List<Sector> sectors = new List<Sector>();
-            foreach (SectorDTO sector in sectorsDto) 
+            foreach (SectorDTO sector in sectorsDto)
             {
-                sectors.Add(new Sector(sector));
+                User deletedBy = this._userContainer.GetUserById(sector.DeletedBy);
+
+                sectors.Add(new Sector(sector, deletedBy));
             }
 
             return sectors;
         }
 
-        public static Sector GetSectorById(int id)
+        public Sector GetSectorById(int id)
         {
-            return new Sector(SectorDAL.GetById(id));
+            SectorDTO sector = this._sectorDAL.GetById(id);
+            User deletedBy = this._userContainer.GetUserById(sector.DeletedBy);
+
+            return new Sector(sector, deletedBy);
         }
 
-        public static bool Save(Sector sector)
+        public bool Save(Sector sector)
         {
-            return SectorDAL.Save(new SectorDTO(sector));
+            return this._sectorDAL.Save(new SectorDTO(sector));
         }
 
-        public static bool Update(Sector sector)
+        public bool Update(Sector sector)
         {
-            return SectorDAL.Update(new SectorDTO(sector));
+            return this._sectorDAL.Update(new SectorDTO(sector));
         }
 
-        public static bool Remove(int sectorId, int userId) 
+        public bool Remove(int sectorId, int userId)
         {
-            return SectorDAL.Remove(sectorId, userId);
+            return this._sectorDAL.Remove(sectorId, userId);
         }
     }
 }

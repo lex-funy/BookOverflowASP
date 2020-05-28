@@ -1,5 +1,4 @@
-﻿using Logic = BookOverflowASP.Library.Logic;
-
+﻿using BookOverflowASP.Library.Logic;
 using BookOverflowASP.Models;
 using System;
 using System.Collections.Generic;
@@ -10,9 +9,9 @@ namespace BookOverflowASP
 {
     public class BookConverter
     {
-        public Logic.Book ConvertBookModelToBook(BookModel bookModel)
+        public Book ConvertBookModelToBook(BookModel bookModel)
         {
-            Logic.Book book = new Logic.Book();
+            Book book = new Book();
 
             book.Id = bookModel.Id;
 
@@ -35,7 +34,7 @@ namespace BookOverflowASP
             return book;
         }
 
-        public BookModel ConvertBookToBookModel(Logic.Book book)
+        public BookModel ConvertBookToBookModel(Book book)
         {
             BookModel bookModel = new BookModel();
 

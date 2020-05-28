@@ -19,6 +19,7 @@ namespace BookOverflowASP.Library.Logic
         public DateTime DeletedAt { get; set; }
         public User DeletedBy { get; set; }
 
+        // Used for tests
         public Book() 
         {
             this.User = new User();
@@ -26,18 +27,18 @@ namespace BookOverflowASP.Library.Logic
             this.Sector = new Sector();
         }
 
-        public Book(BookDTO bookDTO, Course course)
+        public Book(BookDTO bookDTO, Course course, Sector sector, User user, User deletedBy)
         {
             this.Id = bookDTO.Id;
-            this.User = UserContainer.GetUserById(bookDTO.User);
+            this.User = user;
             this.Course = course;
-            this.Sector = SectorContainer.GetSectorById(bookDTO.Sector);
+            this.Sector = sector;
             this.Name = bookDTO.Name;
             this.QualityRating = bookDTO.QualityRating;
             this.Price = bookDTO.Price;
             this.CreatedAt = bookDTO.CreatedAt;
             this.DeletedAt = bookDTO.DeletedAt;
-            this.DeletedBy = UserContainer.GetUserById(bookDTO.DeletedBy);
+            this.DeletedBy = deletedBy;
         }
     }
 }

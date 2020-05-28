@@ -25,7 +25,7 @@ namespace BookOverflowASP.Library.Logic
 
         public User() { }
 
-        public User(UserDTO userDTO)
+        public User(UserDTO userDTO, User deletedBy)
         {
             this.Id = userDTO.Id;
             this.Image = userDTO.Image;
@@ -37,7 +37,7 @@ namespace BookOverflowASP.Library.Logic
             this.ZipCode = userDTO.ZipCode;
             this.CreatedAt = userDTO.CreatedAt;
             this.DeletedAt = userDTO.DeletedAt;
-            this.DeletedBy = UserContainer.GetUserById(userDTO.DeletedBy);
+            this.DeletedBy = deletedBy;
         }
     }
 }

@@ -16,13 +16,13 @@ namespace BookOverflowASP.Library.Logic
 
         public Sector() { }
 
-        public Sector(SectorDTO sectorDTO)
+        public Sector(SectorDTO sectorDTO, User deletedBy)
         {
             this.Id = sectorDTO.Id;
             this.Name = sectorDTO.Name;
             this.CreatedAt = sectorDTO.CreatedAt;
             this.DeletedAt = sectorDTO.DeletedAt;
-            this.DeletedBy = UserContainer.GetUserById(sectorDTO.DeletedBy);            
+            this.DeletedBy = deletedBy;            
         }
     }
 }

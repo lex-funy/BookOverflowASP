@@ -10,10 +10,12 @@ namespace BookOverflowASP.Library.Logic
     public class CourseContainer : ICourseContainer
     {
         private readonly ICourseDAL _courseDal;
+        private readonly IUserContainer _userContainer;
 
-        public CourseContainer(ICourseDAL iCourseDal)
+        public CourseContainer(ICourseDAL iCourseDal, IUserContainer userContainer)
         {
             this._courseDal = iCourseDal;
+            this._userContainer = userContainer;
         }
 
         public List<Course> GetAll(int limit = -1)
@@ -23,7 +25,9 @@ namespace BookOverflowASP.Library.Logic
             List<Course> courses = new List<Course>();
             foreach (CourseDTO course in coursesDto)
             {
-                courses.Add(new Course(course));
+                User deletedBy = this._userContainer.GetUserById(course.DeletedBy);
+
+                courses.Add(new Course(course, deletedBy));
             }
 
             return courses;
@@ -31,7 +35,10 @@ namespace BookOverflowASP.Library.Logic
 
         public Course GetCourseById(int id)
         {
-            return new Course(this._courseDal.GetById(id));
+            CourseDTO courseDTO = this._courseDal.GetById(id);
+            User deletedBy = this._userContainer.GetUserById(courseDTO.DeletedBy);
+
+            return new Course(courseDTO, deletedBy);
         }
 
         public bool Save(Course course)

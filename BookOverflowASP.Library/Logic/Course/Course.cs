@@ -16,13 +16,13 @@ namespace BookOverflowASP.Library.Logic
 
         public Course() { }
 
-        public Course(CourseDTO courseDTO)
+        public Course(CourseDTO courseDTO, User deletedBy)
         {
             this.Id = courseDTO.Id;
             this.Name = courseDTO.Name;
             this.CreatedAt = courseDTO.CreatedAt;
             this.DeletedAt = courseDTO.DeletedAt;
-            this.DeletedBy = UserContainer.GetUserById(courseDTO.DeletedBy);            
+            this.DeletedBy = deletedBy;            
         }
     }
 }

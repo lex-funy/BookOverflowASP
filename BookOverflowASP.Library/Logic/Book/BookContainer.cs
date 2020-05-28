@@ -11,11 +11,15 @@ namespace BookOverflowASP.Library.Logic
     {
         private readonly IBookDAL _bookDAL;
         private readonly ICourseContainer _courseContainer;
+        private readonly ISectorContainer _sectorContainer;
+        private readonly IUserContainer _userContainer;
 
-        public BookContainer(IBookDAL bookDAL, ICourseContainer iCourseContainer)
+        public BookContainer(IBookDAL bookDAL, ICourseContainer courseContainer, ISectorContainer sectorContainer, IUserContainer userContainer)
         {
             this._bookDAL = bookDAL;
-            this._courseContainer = iCourseContainer;
+            this._courseContainer = courseContainer;
+            this._sectorContainer = sectorContainer;
+            this._userContainer = userContainer;
         }
 
         public List<Book> GetAllBooks(int limit = -1)
@@ -25,9 +29,13 @@ namespace BookOverflowASP.Library.Logic
             List<Book> books = new List<Book>();
             foreach (BookDTO book in booksDto)
             {
+                // FIXME: Hoe kan dit beter?
                 Course course = this._courseContainer.GetCourseById(book.Course);
+                Sector sector = this._sectorContainer.GetSectorById(book.Sector);
+                User user = this._userContainer.GetUserById(book.User);
+                User deletedBy = this._userContainer.GetUserById(book.DeletedBy);
 
-                books.Add(new Book(book, course));
+                books.Add(new Book(book, course, sector, user, deletedBy));
             }
 
             return books;
@@ -41,8 +49,11 @@ namespace BookOverflowASP.Library.Logic
             foreach (BookDTO book in bookDtos)
             {
                 Course course = this._courseContainer.GetCourseById(book.Course);
+                Sector sector = this._sectorContainer.GetSectorById(book.Sector);
+                User user = this._userContainer.GetUserById(book.User);
+                User deletedBy = this._userContainer.GetUserById(book.DeletedBy);
 
-                books.Add(new Book(book, course));
+                books.Add(new Book(book, course, sector, user, deletedBy));
             }
 
             return books;
@@ -51,18 +62,19 @@ namespace BookOverflowASP.Library.Logic
         public Book GetBookById(int id)
         {
             BookDTO bookDto = this._bookDAL.GetById(id);
-            
-            Course course = this._courseContainer.GetCourseById(bookDto.Course);
 
-            Book book = new Book(bookDto, course);
+            Course course = this._courseContainer.GetCourseById(bookDto.Course);
+            Sector sector = this._sectorContainer.GetSectorById(bookDto.Sector);
+            User user = this._userContainer.GetUserById(bookDto.User);
+            User deletedBy = this._userContainer.GetUserById(bookDto.DeletedBy);
+
+            Book book = new Book(bookDto, course, sector, user, deletedBy);
 
             return book;
         }
 
         public bool Save(Book book)
         {
-
-
             return this._bookDAL.Save(new BookDTO(book));
         }
 

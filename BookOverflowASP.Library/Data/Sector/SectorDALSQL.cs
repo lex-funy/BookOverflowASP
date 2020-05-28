@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookOverflowASP.Library.Data
 {
-    public class SectorDAL
+    public class SectorDALSQL : ISectorDAL
     {
-        public static bool Save(SectorDTO sectorDto)
+        public bool Save(SectorDTO sectorDto)
         {
             Database database = new Database();
 
@@ -32,7 +32,7 @@ namespace BookOverflowASP.Library.Data
             return false;
         }
 
-        public static List<SectorDTO> GetAll(int limit)
+        public List<SectorDTO> GetAll(int limit)
         {
             Database database = new Database();
 
@@ -40,11 +40,11 @@ namespace BookOverflowASP.Library.Data
                 // FIXME: throw exception;
                 return null;
 
-            if (limit == -1) 
+            if (limit == -1)
             {
                 database.command.CommandText = "SELECT * FROM sectors WHERE deleted_at IS NULL";
-            } 
-            else 
+            }
+            else
             {
                 database.command.CommandText = "SELECT * FROM sectors WHERE deleted_at IS NULL LIMIT @limit";
 
@@ -61,9 +61,11 @@ namespace BookOverflowASP.Library.Data
                 temp.Id = result.GetInt16(0);
                 temp.Name = result.GetString(1);
                 temp.CreatedAt = result.GetDateTime(2);
-                try {
+                try
+                {
                     temp.DeletedAt = result.GetDateTime(3);
-                } catch (Exception) {}
+                }
+                catch (Exception) { }
 
                 items.Add(temp);
             }
@@ -73,7 +75,7 @@ namespace BookOverflowASP.Library.Data
             return items;
         }
 
-        public static SectorDTO GetById(int id)
+        public SectorDTO GetById(int id)
         {
             Database database = new Database();
 
@@ -93,12 +95,14 @@ namespace BookOverflowASP.Library.Data
                 item.Id = result.GetInt16(0); // ID
                 item.Name = result.GetString(1); // Name
                 item.CreatedAt = result.GetDateTime(2); // CreatedAt
-                try {
+                try
+                {
                     item.DeletedAt = result.GetDateTime(3); // DeletedAt
-                } catch (Exception) {}
-                try {
+                } catch (Exception) { }
+                try
+                {
                     item.DeletedBy = result.GetInt32(4); // DeletedBy
-                } catch (Exception) {}
+                } catch (Exception) { }
             }
 
             database.CloseConnection();
@@ -106,7 +110,7 @@ namespace BookOverflowASP.Library.Data
             return item;
         }
 
-        public static bool Update(SectorDTO sectorDto)
+        public bool Update(SectorDTO sectorDto)
         {
             // TODO: Doe de shit
             Database database = new Database();
@@ -131,7 +135,7 @@ namespace BookOverflowASP.Library.Data
             return false;
         }
 
-        public static bool Remove(int sectorId, int userId)
+        public bool Remove(int sectorId, int userId)
         {
             Database database = new Database();
 

@@ -47,9 +47,11 @@
     <Compile Include="Data\Course\CourseDTO.cs" />
     <Compile Include="Data\Course\ICourseDAL.cs" />
     <Compile Include="Data\Database.cs" />
-    <Compile Include="Data\Sector\SectorDAL.cs" />
+    <Compile Include="Data\Sector\ISectorDAL.cs" />
+    <Compile Include="Data\Sector\SectorDALSQL.cs" />
     <Compile Include="Data\Sector\SectorDTO.cs" />
-    <Compile Include="Data\User\UserDAL.cs" />
+    <Compile Include="Data\User\IUserDAL.cs" />
+    <Compile Include="Data\User\UserDALSQL.cs" />
     <Compile Include="Data\User\UserDTO.cs" />
     <Compile Include="Logic\Book\Book.cs" />
     <Compile Include="Logic\Book\BookContainer.cs" />
@@ -58,8 +60,10 @@
     <Compile Include="Logic\Course\CourseContainer.cs" />
     <Compile Include="Logic\Course\ICourseContainer.cs" />
     <Compile Include="Logic\Enums.cs" />
+    <Compile Include="Logic\Sector\ISectorContainer.cs" />
     <Compile Include="Logic\Sector\Sector.cs" />
     <Compile Include="Logic\Sector\SectorContainer.cs" />
+    <Compile Include="Logic\User\IUserContainer.cs" />
     <Compile Include="Logic\User\User.cs" />
     <Compile Include="Logic\User\UserContainer.cs" />
   </ItemGroup>

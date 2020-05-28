@@ -14,17 +14,21 @@ namespace BookOverflowASP.Controllers
         private readonly ISessionHandler _sessionHandler;
         private readonly IMiddleware _middleware;
 
-        public SectorController(ISessionHandler sessionHandler, IMiddleware middleware)
+        private readonly ISectorContainer _sectorContainer;
+
+        public SectorController(ISessionHandler sessionHandler, IMiddleware middleware, ISectorContainer sectorContainer)
         {
             this._sessionHandler = sessionHandler;
             this._middleware = middleware;
+
+            this._sectorContainer = sectorContainer;
         }
         public IActionResult Index()
         {
             if (!this._middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
-            List<Sector> sectors = SectorContainer.GetAll();
+            List<Sector> sectors = this._sectorContainer.GetAll();
             
             // FIXME: Kan dit beter ?
             SectorListViewModel slvm = new SectorListViewModel();
@@ -59,7 +63,7 @@ namespace BookOverflowASP.Controllers
                 return RedirectToAction("Login", "User");
 
             SectorConverter sectorConverter = new SectorConverter();
-            SectorContainer.Save(sectorConverter.ConvertSectorModelToSector(sectorModel));
+            this._sectorContainer.Save(sectorConverter.ConvertSectorModelToSector(sectorModel));
 
             return RedirectToAction("Index");
         }
@@ -70,7 +74,7 @@ namespace BookOverflowASP.Controllers
             if (!this._middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
-            Sector sector = SectorContainer.GetSectorById(id);
+            Sector sector = this._sectorContainer.GetSectorById(id);
 
             SectorModel sectorModel = new SectorModel();
 
@@ -87,7 +91,7 @@ namespace BookOverflowASP.Controllers
                 return RedirectToAction("Login", "User");
 
             SectorConverter sectorConverter = new SectorConverter();
-            if (SectorContainer.Update(sectorConverter.ConvertSectorModelToSector(sectorModel))) 
+            if (this._sectorContainer.Update(sectorConverter.ConvertSectorModelToSector(sectorModel))) 
                 return RedirectToAction("Index");
             return RedirectToAction("Edit", sectorModel.Id);
         }
@@ -98,7 +102,7 @@ namespace BookOverflowASP.Controllers
                 return RedirectToAction("Login", "User");
 
             // TODO: Add validation message
-            SectorContainer.Remove(id, this._sessionHandler.GetUserID(HttpContext));
+            this._sectorContainer.Remove(id, this._sessionHandler.GetUserID(HttpContext));
 
             return RedirectToAction("Index");
         }
