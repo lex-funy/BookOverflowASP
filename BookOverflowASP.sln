@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookOverflowASP", "BookOverflowASP\BookOverflowASP.csproj", "{854F8A0C-A0CC-4372-BCBA-53A2DED6A8BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookOverflowASP", "BookOverflowASP\BookOverflowASP.csproj", "{854F8A0C-A0CC-4372-BCBA-53A2DED6A8BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookOverflowASP.Test", "BookOverflowASP.Test\BookOverflowASP.Test.csproj", "{8E15668D-7680-4560-B2EB-B584C2B053BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookOverflowASP.Library", "BookOverflowASP.Library\BookOverflowASP.Library.csproj", "{713765A2-ABDB-4E53-B6FB-FC671BC0761A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{854F8A0C-A0CC-4372-BCBA-53A2DED6A8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{854F8A0C-A0CC-4372-BCBA-53A2DED6A8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{854F8A0C-A0CC-4372-BCBA-53A2DED6A8BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E15668D-7680-4560-B2EB-B584C2B053BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E15668D-7680-4560-B2EB-B584C2B053BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E15668D-7680-4560-B2EB-B584C2B053BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E15668D-7680-4560-B2EB-B584C2B053BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713765A2-ABDB-4E53-B6FB-FC671BC0761A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713765A2-ABDB-4E53-B6FB-FC671BC0761A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713765A2-ABDB-4E53-B6FB-FC671BC0761A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713765A2-ABDB-4E53-B6FB-FC671BC0761A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

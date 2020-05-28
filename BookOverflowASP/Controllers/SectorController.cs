@@ -1,22 +1,29 @@
-﻿using System;
+﻿using BookOverflowASP.Library.Logic;
+using BookOverflowASP.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using BookOverflowASP.Models;
-using BookOverflowASP.Logic;
 using Microsoft.AspNetCore.Http;
-
 
 namespace BookOverflowASP.Controllers
 {
     public class SectorController : Controller
     {
+        private readonly ISessionHandler _sessionHandler;
+        private readonly IMiddleware _middleware;
+
+        public SectorController(ISessionHandler sessionHandler, IMiddleware middleware)
+        {
+            this._sessionHandler = sessionHandler;
+            this._middleware = middleware;
+        }
         public IActionResult Index()
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
-            
+
             List<Sector> sectors = SectorContainer.GetAll();
             
             // FIXME: Kan dit beter ?
@@ -39,7 +46,7 @@ namespace BookOverflowASP.Controllers
         [HttpGet]
         public IActionResult Create() 
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
             return View();
@@ -48,10 +55,11 @@ namespace BookOverflowASP.Controllers
         [HttpPost]
         public IActionResult Create(SectorModel sectorModel)
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
-            SectorContainer.Save(sectorModel);
+            SectorConverter sectorConverter = new SectorConverter();
+            SectorContainer.Save(sectorConverter.ConvertSectorModelToSector(sectorModel));
 
             return RedirectToAction("Index");
         }
@@ -59,7 +67,7 @@ namespace BookOverflowASP.Controllers
         [HttpGet]
         public IActionResult Edit(int id) 
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
             Sector sector = SectorContainer.GetSectorById(id);
@@ -75,21 +83,22 @@ namespace BookOverflowASP.Controllers
         [HttpPost]
         public IActionResult Edit(SectorModel sectorModel)
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
-            if (SectorContainer.Update(sectorModel)) 
+            SectorConverter sectorConverter = new SectorConverter();
+            if (SectorContainer.Update(sectorConverter.ConvertSectorModelToSector(sectorModel))) 
                 return RedirectToAction("Index");
             return RedirectToAction("Edit", sectorModel.Id);
         }
 
         public IActionResult Remove(int id) 
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext))     
+            if (!this._middleware.CheckUserPermission(PermissionType.Admin, HttpContext))     
                 return RedirectToAction("Login", "User");
 
             // TODO: Add validation message
-            SectorContainer.Remove(id, SessionHandler.GetUserID(HttpContext));
+            SectorContainer.Remove(id, this._sessionHandler.GetUserID(HttpContext));
 
             return RedirectToAction("Index");
         }

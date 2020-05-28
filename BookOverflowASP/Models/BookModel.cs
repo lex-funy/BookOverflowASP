@@ -10,11 +10,11 @@ namespace BookOverflowASP.Models
     {
         public int Id { get; set; }
 
-        public UserModel User { get; set; }
+        public UserModel User { get; set; } = new UserModel();
 
-        public SectorModel Sector { get; set; }
+        public SectorModel Sector { get; set; } = new SectorModel();
 
-        public CourseModel Course { get; set; }
+        public CourseModel Course { get; set; } = new CourseModel();
 
         [Required]
         public string Name { get; set; }

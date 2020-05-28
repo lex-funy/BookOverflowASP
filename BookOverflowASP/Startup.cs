@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Logic = BookOverflowASP.Library.Logic;
+using Data = BookOverflowASP.Library.Data;
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +29,13 @@ namespace BookOverflowASP
         {
             services.AddHttpContextAccessor();
 
+            services.AddTransient<Logic.IBookContainer, Logic.BookContainerSQL>();
+
+            services.AddTransient<Data.IBookDAL, Data.BookDALSQL>();
+
+            services.AddTransient<IMiddleware, Middleware>();
+            services.AddTransient<ISessionHandler, SessionHandler>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -34,7 +44,6 @@ namespace BookOverflowASP
             });
 
             // Session
-            // services.AddDistributedMemoryCache();
             services.AddSession();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

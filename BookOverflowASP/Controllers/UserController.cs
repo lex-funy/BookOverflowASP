@@ -1,8 +1,8 @@
-﻿using System;
-using BookOverflowASP.Logic;
+﻿using Logic = BookOverflowASP.Library.Logic;
+
 using BookOverflowASP.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -11,9 +11,17 @@ namespace BookOverflowASP.Controllers
 {
     public class UserController : Controller
     {
+        private readonly ISessionHandler _sessionHandler;
+        private readonly IMiddleware _middleware;
+
+        public UserController(ISessionHandler sessionHandler, IMiddleware middleware)
+        {
+            this._sessionHandler = sessionHandler;
+            this._middleware = middleware;
+        }
         public IActionResult Index()
         {
-            if (!Middleware.CheckUserPermission(PermissionType.User, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.User, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
             return View();
@@ -22,9 +30,9 @@ namespace BookOverflowASP.Controllers
         [HttpGet]
         public IActionResult Register() 
         {
-            if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.None, HttpContext)) 
                 return RedirectToAction("Login", "User");
-            if (SessionHandler.GetUserID(HttpContext) != 0)
+            if (this._sessionHandler.GetUserID(HttpContext) != 0)
                 return RedirectToAction("Index", "Home");
 
 
@@ -33,13 +41,14 @@ namespace BookOverflowASP.Controllers
 
         public IActionResult Register(UserModel userModel)
         {
-            if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.None, HttpContext)) 
                 return RedirectToAction("Login", "User");
-            if (SessionHandler.GetUserID(HttpContext) != 0)
+            if (this._sessionHandler.GetUserID(HttpContext) != 0)
                 return RedirectToAction("Index", "Home");
 
             // TODO: Hash the password;
-            UserContainer.Save(userModel);
+            UserConverter userConverter = new UserConverter();
+            Logic.UserContainer.Save(userConverter.ToUser(userModel));
             
             ViewData["Message"] = "Succesfully registered;";
             
@@ -49,7 +58,7 @@ namespace BookOverflowASP.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.None, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
             return View();
@@ -58,24 +67,28 @@ namespace BookOverflowASP.Controllers
         [HttpPost]
         public IActionResult Login(UserLoginModel userLoginModel)
         {
-            if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.None, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
             // TODO: Hash the password;
-            User user = UserContainer.GetByEmailAndPassword(userLoginModel);
+            UserConverter userConverter = new UserConverter();
+            Logic.User user = Logic.UserContainer.GetByEmailAndPassword(userConverter.ToUser(userLoginModel));
 
-            SessionHandler.SetUserId(user.Id, HttpContext);
-            SessionHandler.SetPermission(user.Permission, HttpContext);
+            this._sessionHandler.SetUserId(user.Id, HttpContext);
+            this._sessionHandler.SetPermission(user.Permission, HttpContext);
 
-            return Redirect(Request.Headers["Referer"].ToString());
+            // this._sessionHandler.SetUserId(1, HttpContext);
+            // this._sessionHandler.SetPermission(Logic.PermissionType.Admin, HttpContext);
+
+            return Redirect("Index");
         }
 
         public IActionResult Logout()
         {
-            if (!Middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.None, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
-            SessionHandler.ClearSession(HttpContext);
+            this._sessionHandler.ClearSession(HttpContext);
 
             return RedirectToAction("Index", "Home");
         }

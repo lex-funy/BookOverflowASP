@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Logic = BookOverflowASP.Library.Logic;
+
+using BookOverflowASP.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using BookOverflowASP.Models;
-using BookOverflowASP.Logic;
 using Microsoft.AspNetCore.Http;
 
 
@@ -12,18 +13,28 @@ namespace BookOverflowASP.Controllers
 {
     public class CourseController : Controller
     {
+        private readonly ISessionHandler _sessionHandler;
+        private readonly IMiddleware _middleware;
+
+
+        public CourseController(ISessionHandler sessionHandler, IMiddleware middleware)
+        {
+            this._sessionHandler = sessionHandler;
+            this._middleware = middleware;
+        }
+
         public IActionResult Index()
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
             
-            List<Course> courses = CourseContainer.GetAll();
+            List<Logic.Course> courses = Logic.CourseContainer.GetAll();
             
             // FIXME: Kan dit beter ?
             CourseListViewModel slvm = new CourseListViewModel();
             slvm.Courses = new List<CourseModel>();
             
-            foreach (Course course in courses) 
+            foreach (Logic.Course course in courses) 
             {
                 CourseModel temp = new CourseModel();
 
@@ -39,7 +50,7 @@ namespace BookOverflowASP.Controllers
         [HttpGet]
         public IActionResult Create() 
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
             return View();
@@ -48,10 +59,11 @@ namespace BookOverflowASP.Controllers
         [HttpPost]
         public IActionResult Create(CourseModel courseModel)
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
-            CourseContainer.Save(courseModel);
+            CourseConverter courseConverter = new CourseConverter();
+            Logic.CourseContainer.Save(courseConverter.ToCourse(courseModel));
 
             return RedirectToAction("Index");
         }
@@ -59,10 +71,10 @@ namespace BookOverflowASP.Controllers
         [HttpGet]
         public IActionResult Edit(int id) 
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.Admin, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
-            Course course = CourseContainer.GetCourseById(id);
+            Logic.Course course = Logic.CourseContainer.GetCourseById(id);
 
             CourseModel courseModel = new CourseModel();
 
@@ -75,21 +87,22 @@ namespace BookOverflowASP.Controllers
         [HttpPost]
         public IActionResult Edit(CourseModel courseModel)
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext)) 
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.Admin, HttpContext))
                 return RedirectToAction("Login", "User");
 
-            if (CourseContainer.Update(courseModel)) 
+            CourseConverter courseConverter = new CourseConverter();
+            if (Logic.CourseContainer.Update(courseConverter.ToCourse(courseModel))) 
                 return RedirectToAction("Index");
             return RedirectToAction("Edit", courseModel.Id);
         }
 
         public IActionResult Remove(int id) 
         {
-            if (!Middleware.CheckUserPermission(PermissionType.Admin, HttpContext))     
+            if (!this._middleware.CheckUserPermission(Logic.PermissionType.Admin, HttpContext))     
                 return RedirectToAction("Login", "User");
 
             // TODO: Add validation message
-            CourseContainer.Remove(id, SessionHandler.GetUserID(HttpContext));
+            Logic.CourseContainer.Remove(id, this._sessionHandler.GetUserID(HttpContext));
 
             return RedirectToAction("Index");
         }
