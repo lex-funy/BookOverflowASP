@@ -35,7 +35,6 @@ namespace BookOverflowASP.Controllers
             if (this._sessionHandler.GetUserID(HttpContext) != 0)
                 return RedirectToAction("Index", "Home");
 
-
             return View();
         }
 
@@ -58,6 +57,8 @@ namespace BookOverflowASP.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            Logic.PermissionType temp = this._sessionHandler.GetPermissionType(HttpContext);
+
             if (!this._middleware.CheckUserPermission(Logic.PermissionType.None, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
@@ -72,15 +73,17 @@ namespace BookOverflowASP.Controllers
 
             // TODO: Hash the password;
             UserConverter userConverter = new UserConverter();
-            Logic.User user = Logic.UserContainer.GetByEmailAndPassword(userConverter.ToUser(userLoginModel));
+
+            Logic.User temp = userConverter.ToUser(userLoginModel);
+
+            Logic.User user = Logic.UserContainer.GetByEmailAndPassword(temp);
 
             this._sessionHandler.SetUserId(user.Id, HttpContext);
             this._sessionHandler.SetPermission(user.Permission, HttpContext);
 
-            // this._sessionHandler.SetUserId(1, HttpContext);
-            // this._sessionHandler.SetPermission(Logic.PermissionType.Admin, HttpContext);
-
-            return Redirect("Index");
+            Logic.PermissionType asdfasdf = this._sessionHandler.GetPermissionType(HttpContext);
+            
+            return RedirectToAction("Login");
         }
 
         public IActionResult Logout()

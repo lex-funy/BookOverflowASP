@@ -26,6 +26,7 @@ namespace BookOverflowASP.Library.Data
         {
             this.Id = user.Id;
             this.Image = user.Image;
+            this.Email = user.Email;
             this.Password = user.Password;
             this.FirstName = user.FirstName;
             this.Insertion = user.Insertion;

@@ -7,14 +7,21 @@ using BookOverflowASP.Library.Logic;
 
 namespace BookOverflowASP.Library.Logic
 {
-    public class CourseContainer
+    public class CourseContainer : ICourseContainer
     {
-        public static List<Course> GetAll(int limit = -1)
+        private readonly ICourseDAL _courseDal;
+
+        public CourseContainer(ICourseDAL iCourseDal)
         {
-            List<CourseDTO> coursesDto = CourseDAL.GetAll(limit);
+            this._courseDal = iCourseDal;
+        }
+
+        public List<Course> GetAll(int limit = -1)
+        {
+            List<CourseDTO> coursesDto = this._courseDal.GetAll(limit);
 
             List<Course> courses = new List<Course>();
-            foreach (CourseDTO course in coursesDto) 
+            foreach (CourseDTO course in coursesDto)
             {
                 courses.Add(new Course(course));
             }
@@ -22,24 +29,24 @@ namespace BookOverflowASP.Library.Logic
             return courses;
         }
 
-        public static Course GetCourseById(int id)
+        public Course GetCourseById(int id)
         {
-            return new Course(CourseDAL.GetById(id));
+            return new Course(this._courseDal.GetById(id));
         }
 
-        public static bool Save(Course course)
+        public bool Save(Course course)
         {
-            return CourseDAL.Save(new CourseDTO(course));
+            return this._courseDal.Save(new CourseDTO(course));
         }
 
-        public static bool Update(Course course)
+        public bool Update(Course course)
         {
-            return CourseDAL.Update(new CourseDTO(course));
+            return this._courseDal.Update(new CourseDTO(course));
         }
 
-        public static bool Remove(int courseId, int userId) 
+        public bool Remove(int courseId, int userId)
         {
-            return CourseDAL.Remove(courseId, userId);
+            return this._courseDal.Remove(courseId, userId);
         }
     }
 }

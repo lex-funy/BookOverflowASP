@@ -29,9 +29,11 @@ namespace BookOverflowASP
         {
             services.AddHttpContextAccessor();
 
-            services.AddTransient<Logic.IBookContainer, Logic.BookContainerSQL>();
+            services.AddTransient<Logic.IBookContainer, Logic.BookContainer>();
+            services.AddTransient<Logic.ICourseContainer, Logic.CourseContainer>();
 
             services.AddTransient<Data.IBookDAL, Data.BookDALSQL>();
+            services.AddTransient<Data.ICourseDAL, Data.CourseDALSQL>();
 
             services.AddTransient<IMiddleware, Middleware>();
             services.AddTransient<ISessionHandler, SessionHandler>();

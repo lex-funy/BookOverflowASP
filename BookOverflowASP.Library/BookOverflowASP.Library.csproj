@@ -43,8 +43,9 @@
     <Compile Include="Data\Book\BookDALSQL.cs" />
     <Compile Include="Data\Book\BookDTO.cs" />
     <Compile Include="Data\Book\IBookDAL.cs" />
-    <Compile Include="Data\Course\CourseDAL.cs" />
+    <Compile Include="Data\Course\CourseDALSQL.cs" />
     <Compile Include="Data\Course\CourseDTO.cs" />
+    <Compile Include="Data\Course\ICourseDAL.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\Sector\SectorDAL.cs" />
     <Compile Include="Data\Sector\SectorDTO.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Logic\Book\IBookContainer.cs" />
     <Compile Include="Logic\Course\Course.cs" />
     <Compile Include="Logic\Course\CourseContainer.cs" />
+    <Compile Include="Logic\Course\ICourseContainer.cs" />
     <Compile Include="Logic\Enums.cs" />
     <Compile Include="Logic\Sector\Sector.cs" />
     <Compile Include="Logic\Sector\SectorContainer.cs" />

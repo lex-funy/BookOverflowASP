@@ -26,11 +26,11 @@ namespace BookOverflowASP.Library.Logic
             this.Sector = new Sector();
         }
 
-        public Book(BookDTO bookDTO)
+        public Book(BookDTO bookDTO, Course course)
         {
             this.Id = bookDTO.Id;
             this.User = UserContainer.GetUserById(bookDTO.User);
-            this.Course = CourseContainer.GetCourseById(bookDTO.Course);
+            this.Course = course;
             this.Sector = SectorContainer.GetSectorById(bookDTO.Sector);
             this.Name = bookDTO.Name;
             this.QualityRating = bookDTO.QualityRating;

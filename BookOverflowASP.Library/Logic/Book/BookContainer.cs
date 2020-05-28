@@ -7,13 +7,15 @@ using BookOverflowASP.Library.Logic;
 
 namespace BookOverflowASP.Library.Logic
 {
-    public class BookContainerSQL : IBookContainer
+    public class BookContainer : IBookContainer
     {
         private readonly IBookDAL _bookDAL;
+        private readonly ICourseContainer _courseContainer;
 
-        public BookContainerSQL(IBookDAL bookDAL)
+        public BookContainer(IBookDAL bookDAL, ICourseContainer iCourseContainer)
         {
             this._bookDAL = bookDAL;
+            this._courseContainer = iCourseContainer;
         }
 
         public List<Book> GetAllBooks(int limit = -1)
@@ -23,7 +25,9 @@ namespace BookOverflowASP.Library.Logic
             List<Book> books = new List<Book>();
             foreach (BookDTO book in booksDto)
             {
-                books.Add(new Book(book));
+                Course course = this._courseContainer.GetCourseById(book.Course);
+
+                books.Add(new Book(book, course));
             }
 
             return books;
@@ -36,7 +40,9 @@ namespace BookOverflowASP.Library.Logic
             List<Book> books = new List<Book>();
             foreach (BookDTO book in bookDtos)
             {
-                books.Add(new Book(book));
+                Course course = this._courseContainer.GetCourseById(book.Course);
+
+                books.Add(new Book(book, course));
             }
 
             return books;
@@ -45,14 +51,18 @@ namespace BookOverflowASP.Library.Logic
         public Book GetBookById(int id)
         {
             BookDTO bookDto = this._bookDAL.GetById(id);
+            
+            Course course = this._courseContainer.GetCourseById(bookDto.Course);
 
-            Book book = new Book(bookDto);
+            Book book = new Book(bookDto, course);
 
             return book;
         }
 
         public bool Save(Book book)
         {
+
+
             return this._bookDAL.Save(new BookDTO(book));
         }
 

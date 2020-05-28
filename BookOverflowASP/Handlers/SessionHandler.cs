@@ -17,6 +17,8 @@ namespace BookOverflowASP
         public void SetPermission(PermissionType permission, HttpContext context)
         {
             context.Session.SetInt32("permission", (int)permission);
+
+            int? temp = context.Session.GetInt32("permission");
         }
 
         public void ClearSession(HttpContext context)
@@ -38,8 +40,10 @@ namespace BookOverflowASP
         {
             PermissionType permission = PermissionType.None;
 
-            if (context.Session.GetInt32("permission") != null)
-                permission = (PermissionType)context.Session.GetInt32("permission");
+            int? temp = context.Session.GetInt32("permission");
+
+            if (temp != null)
+                permission = (PermissionType)temp;
 
             return permission;
         }
