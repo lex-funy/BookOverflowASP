@@ -52,8 +52,10 @@ namespace BookOverflowASP.Library.Logic
                 Sector sector = this._sectorContainer.GetSectorById(book.Sector);
                 User user = this._userContainer.GetUserById(book.User);
                 User deletedBy = this._userContainer.GetUserById(book.DeletedBy);
-
+                
                 books.Add(new Book(book, course, sector, user, deletedBy));
+                // books.Add(new Book(book, this._courseContainer, this._sectorContainer, this._userContainer));
+                // books.Add(new Book(book, this._FactoryContainer));
             }
 
             return books;

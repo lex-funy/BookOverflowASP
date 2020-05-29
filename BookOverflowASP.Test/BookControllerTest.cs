@@ -1,4 +1,4 @@
-﻿using Logic = BookOverflowASP.Library.Logic;
+﻿using BookOverflowASP.Library.Logic;
 
 using Moq;
 using BookOverflowASP.Models;
@@ -13,27 +13,27 @@ using System.Text;
 namespace BookOverflowASP.Test
 {
     [TestClass]
-    public class BookControllerTest
+    class BookControllerTest
     {
         [TestMethod]
         public void IndexReturnsAllBooks()
         {
             // Arrange
-            List<Logic.Book> books = new List<Logic.Book>() {
-                new Logic.Book(),
-                new Logic.Book()
+            List<Book> books = new List<Book>() {
+                new Book(),
+                new Book()
             };
 
-            var mockBookContainer = new Mock<Logic.IBookContainer>();
+            var mockBookContainer = new Mock<IBookContainer>();
             mockBookContainer.Setup(m => m.GetAllBooks(It.IsAny<int>())).Returns(books);
 
             var mockSessionHandler = new Mock<ISessionHandler>();
             mockSessionHandler.Setup(m => m.GetPermissionType(It.IsAny<HttpContext>())).Returns(
-                Logic.PermissionType.User
+                PermissionType.User
             );
 
             var mockMiddleware = new Mock<IMiddleware>();
-            mockMiddleware.Setup(m => m.CheckUserPermission(It.IsAny<Logic.PermissionType>(), It.IsAny<HttpContext>())).Returns(true);
+            mockMiddleware.Setup(m => m.CheckUserPermission(It.IsAny<PermissionType>(), It.IsAny<HttpContext>())).Returns(true);
 
             // bookController
             BookController target = new BookController(mockBookContainer.Object, mockSessionHandler.Object, mockMiddleware.Object);

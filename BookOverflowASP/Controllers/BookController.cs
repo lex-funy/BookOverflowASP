@@ -91,6 +91,7 @@ namespace BookOverflowASP.Controllers
             Book book = this._bookContainer.GetBookById(id);
 
             BookConverter bookConverter = new BookConverter();
+
             BookModel bookModel = bookConverter.ConvertBookToBookModel(book);
 
             return View(bookModel);

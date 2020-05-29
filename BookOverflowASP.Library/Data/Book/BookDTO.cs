@@ -32,8 +32,10 @@ namespace BookOverflowASP.Library.Data
             this.QualityRating = book.QualityRating;
             this.Price = book.Price;
             this.CreatedAt = book.CreatedAt;
-            this.DeletedAt = book.DeletedAt;
-            this.DeletedBy = book.DeletedBy.Id;
+            try {
+                this.DeletedAt = book.DeletedAt;
+                this.DeletedBy = book.DeletedBy.Id;
+            } catch (Exception) {}
         }
 
         public BookDTO(MySqlDataReader result)
