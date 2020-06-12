@@ -3,12 +3,28 @@
     ViewData["Title"] = "Detail";
 }
 
+<style>
+    .right {
+        width: 60%;
+    }
+</style>
+
 @* TODO: Make this look good *@
-<div class="container">
-    <h2>@Model.Name</h2>
-    <p>Owner: @Model.User.LastName</p>
-    <p>Sector: @Model.Sector.Name</p>
-    <p>Course: @Model.Course.Name</p>
-    <p>Price: <span class="price">@Model.Price</span></p>
-    <p>QualityRating: @Model.QualityRating</p>
-</div>
+<section>
+    <div class="container">
+        <div class="row sb">
+            <img src="https://via.placeholder.com/400" alt="Book Image">
+            <div class="right">
+                <div class="row sb">
+                    <h2>@Model.Name</h2>
+                    <p class="price"><span class="price">@Model.Price</span></p>
+                </div>
+                <p>Posted by: @Model.User.LastName</p>
+                <p>Sector: @Model.Sector.Name</p>
+                <p>Course: @Model.Course.Name</p>
+                @* TODO: Make this cool with stars *@
+                <p>Quality rating: @Model.QualityRating</p>
+            </div>
+        </div>    
+    </div>
+</section>
