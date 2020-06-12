@@ -13,7 +13,6 @@ namespace BookOverflowASP.Controllers
     {
         private readonly ISessionHandler _sessionHandler;
         private readonly IMiddleware _middleware;
-
         private readonly IUserContainer _userContainer;
 
         public UserController(ISessionHandler sessionHandler, IMiddleware middleware, IUserContainer userContainer)
@@ -87,7 +86,7 @@ namespace BookOverflowASP.Controllers
 
             PermissionType asdfasdf = this._sessionHandler.GetPermissionType(HttpContext);
             
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Book");
         }
 
         public IActionResult Logout()
