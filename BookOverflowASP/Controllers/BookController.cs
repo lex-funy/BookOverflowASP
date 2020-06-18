@@ -42,6 +42,8 @@ namespace BookOverflowASP.Controllers
             if (!this._middleware.CheckUserPermission(PermissionType.User, HttpContext)) 
                 return RedirectToAction("Login", "User");
 
+            
+
             return View();
         }
 

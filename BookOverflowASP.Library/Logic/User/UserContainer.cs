@@ -32,12 +32,11 @@ namespace BookOverflowASP.Library.Logic
 
         public User GetUserById(int id)
         {
-            if (id == 0)
+            if (id <= 0)
                 return new User();
 
             UserDTO userDto = this._userDAL.GetById(id);
 
-            // Possible infinite loop
             User deletedBy = this.GetUserById(userDto.DeletedBy);
 
             User user = new User(userDto, deletedBy);

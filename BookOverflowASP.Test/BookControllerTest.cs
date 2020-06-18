@@ -1,11 +1,10 @@
-﻿using BookOverflowASP.Library.Logic;
-
-using Moq;
+﻿using Moq;
 using BookOverflowASP.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using BookOverflowASP.Controllers;
+using BookOverflowASP.Library.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Text;
@@ -13,7 +12,7 @@ using System.Text;
 namespace BookOverflowASP.Test
 {
     [TestClass]
-    class BookControllerTest
+    public class BookControllerTest
     {
         [TestMethod]
         public void IndexReturnsAllBooks()
@@ -35,21 +34,19 @@ namespace BookOverflowASP.Test
             var mockMiddleware = new Mock<IMiddleware>();
             mockMiddleware.Setup(m => m.CheckUserPermission(It.IsAny<PermissionType>(), It.IsAny<HttpContext>())).Returns(true);
 
-            // bookController
             BookController target = new BookController(mockBookContainer.Object, mockSessionHandler.Object, mockMiddleware.Object);
 
             // Act
             var result = target.Index();
 
             // Assert
-
-            // Result is an IActionResult but we need the BookIndexViewModel so we have to cast the model.
+            // Result is an IActionResult but we need the BookIndexViewModel so we have to cast the model but that result also needs to be casted to a ViewResult to get the Model.
             var returnModel = (result as ViewResult).Model as BookIndexViewModel;
 
             Assert.IsInstanceOfType(returnModel, typeof(BookIndexViewModel));
             Assert.AreEqual(books.Count, returnModel.Books.Count);
         }
 
-        // IndexReturnCorrectData
+        // IndexReturnsCorrectData
     }
 }

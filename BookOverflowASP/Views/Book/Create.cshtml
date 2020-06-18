@@ -1,6 +1,7 @@
 ﻿@model BookModel
 @{
     ViewData["Title"] = "Create";
+    List<SectorModel> sectors = (List<SectorModel>)ViewData["Sectors"];
 }
 
 <div class="container">
@@ -28,6 +29,11 @@
                 <input asp-for="Price" class="form-control" placeholder="Price"/>
 
                 <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <select asp-for="@Model.Sector.Id">
+                    <option value=""></option>
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" class="btn" />
