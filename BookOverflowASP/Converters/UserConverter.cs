@@ -19,7 +19,7 @@ namespace BookOverflowASP
                 FirstName = userModel.FirstName,
                 Insertion = userModel.Insertion,
                 LastName = userModel.LastName,
-                Email = userModel.LastName,
+                Email = userModel.Email,
                 Password = userModel.Password
             };
 
