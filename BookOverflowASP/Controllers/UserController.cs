@@ -11,16 +11,18 @@ namespace BookOverflowASP.Controllers
 {
     public class UserController : Controller
     {
+        private readonly IUserContainer _userContainer;
+        private readonly IBookContainer _bookContainer;
         private readonly ISessionHandler _sessionHandler;
         private readonly IMiddleware _middleware;
-        private readonly IUserContainer _userContainer;
 
-        public UserController(ISessionHandler sessionHandler, IMiddleware middleware, IUserContainer userContainer)
+        public UserController(ISessionHandler sessionHandler, IBookContainer bookContainer, IMiddleware middleware, IUserContainer userContainer)
         {
+            this._userContainer = userContainer;
+            this._bookContainer = bookContainer;
+
             this._sessionHandler = sessionHandler;
             this._middleware = middleware;
-
-            this._userContainer = userContainer;
         }
         public IActionResult Index()
         {
@@ -95,6 +97,45 @@ namespace BookOverflowASP.Controllers
                 return RedirectToAction("Login", "User");
 
             this._sessionHandler.ClearSession(HttpContext);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Cart()
+        {
+            List<int> ints = this._sessionHandler.GetBooksFromCart(HttpContext);
+
+            BookIndexViewModel bivm = new BookIndexViewModel();
+            bivm.Books = new List<BookModel>();
+
+            foreach (int i in ints)
+            {
+                Book book = this._bookContainer.GetBookById(i);
+                if (book.Name != null) 
+                {
+                    BookModel temp = new BookModel();
+
+                    temp.Id = book.Id;
+                    temp.Name = book.Name;
+                    temp.Price = book.Price;
+                    temp.QualityRating = book.QualityRating;
+
+                    bivm.Books.Add(temp);
+                }
+            }
+
+            return View(bivm);
+        }
+
+        [HttpPost]
+        public IActionResult Cart(int bookId)
+        {
+            if (!this._middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
+                return RedirectToAction("Login", "User");
+
+
+            this._sessionHandler.AddBookToCart(bookId, HttpContext);
 
             return RedirectToAction("Index", "Home");
         }

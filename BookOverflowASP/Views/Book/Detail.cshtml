@@ -13,18 +13,24 @@
 <section>
     <div class="container">
         <div class="row sb">
-            <img src="https://via.placeholder.com/400" alt="Book Image">
+            <img src="https://picsum.photos/400/400" alt="Book Image">
             <div class="right">
                 <div class="row sb">
                     <h2>@Model.Name</h2>
                     <p class="price"><span class="price">@Model.Price</span></p>
                 </div>
-                <p>Posted by: @Model.User.LastName</p>
+                <p>Posted by: @Model.User.FirstName</p>
                 <p>Sector: @Model.Sector.Name</p>
                 <p>Course: @Model.Course.Name</p>
                 @* TODO: Make this cool with stars *@
                 <p>Quality rating: @Model.QualityRating</p>
+                <form asp-action="Cart" asp-controller="User" method="POST">
+                    <input type="hidden" value="@Model.Id" name="bookId">
+                    <div class="form-group">
+                        <input type="submit" class="btn" value="Add to cart">
+                    </div>
+                </form>
             </div>
-        </div>    
+        </div>
     </div>
 </section>

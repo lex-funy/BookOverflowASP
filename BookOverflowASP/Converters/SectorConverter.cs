@@ -20,7 +20,7 @@ namespace BookOverflowASP
             return sector;
         }
 
-        public SectorModel ConvertCoureToSectorModel(Logic.Sector sector)
+        public SectorModel ConvertSectorToSectorModel(Logic.Sector sector)
         {
             SectorModel sectorModel = new SectorModel();
 
@@ -28,6 +28,18 @@ namespace BookOverflowASP
             sectorModel.Name = sector.Name;
 
             return sectorModel;
+        }
+
+        public List<SectorModel> ToSectorModelList(List<Logic.Sector> sectors) 
+        {
+            List<SectorModel> output = new List<SectorModel>();
+
+            foreach (Logic.Sector sector in sectors) 
+            {
+                output.Add(this.ConvertSectorToSectorModel(sector));
+            }
+
+            return output;
         }
     }
 }

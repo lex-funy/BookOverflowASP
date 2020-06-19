@@ -18,12 +18,17 @@ namespace BookOverflowASP.Library.Data
                 return false;
 
             // Insert items into database
-            database.command.CommandText = "INSERT INTO books(name, quality_rating, price) VALUES (@name, @quality_rating, @price)";
+            database.command.CommandText = "INSERT INTO books(name, quality_rating, price, sector_id, course_id, user_id) VALUES (@name, @quality_rating, @price, @sector_id, @course_id, @user_id)";
 
             // bind some shit
             database.command.Parameters.AddWithValue("name", bookDto.Name);
             database.command.Parameters.AddWithValue("quality_rating", bookDto.QualityRating);
             database.command.Parameters.AddWithValue("price", bookDto.Price);
+
+            database.command.Parameters.AddWithValue("@sector_id", bookDto.Sector);
+            database.command.Parameters.AddWithValue("@course_id", bookDto.Course);
+            database.command.Parameters.AddWithValue("@user_id", bookDto.User);
+
 
             int result = database.command.ExecuteNonQuery();
 
@@ -43,13 +48,15 @@ namespace BookOverflowASP.Library.Data
                 return false;
 
             // Insert items into database
-            database.command.CommandText = "UPDATE books SET name=@name, quality_rating=@quality_rating, price=@price WHERE ID = @id";
+            database.command.CommandText = "UPDATE books SET name=@name, quality_rating=@quality_rating, price=@price, sector_id=@sector_id, course_id=@course_id WHERE ID = @id";
 
             // bind some shit
             database.command.Parameters.AddWithValue("id", bookDto.Id);
             database.command.Parameters.AddWithValue("name", bookDto.Name);
             database.command.Parameters.AddWithValue("quality_rating", bookDto.QualityRating);
             database.command.Parameters.AddWithValue("price", bookDto.Price);
+            database.command.Parameters.AddWithValue("sector_id", bookDto.Sector);
+            database.command.Parameters.AddWithValue("course_id", bookDto.Course);
 
             int result = database.command.ExecuteNonQuery();
 
@@ -78,6 +85,40 @@ namespace BookOverflowASP.Library.Data
 
                 database.command.Parameters.AddWithValue("limit", limit);
             }
+
+            MySqlDataReader result = database.command.ExecuteReader();
+
+            List<BookDTO> items = new List<BookDTO>();
+            while (result.Read())
+            {
+                items.Add(new BookDTO(result));
+            }
+
+            database.CloseConnection();
+
+            return items;
+        }
+
+        public List<BookDTO> GetBooksByUserID(int id, int limit) 
+        {
+            Database database = new Database();
+
+            if (!database.OpenConnection())
+                // FIXME: throw exception;
+                return null;
+
+            if (limit == -1)
+            {
+                database.command.CommandText = "SELECT * FROM books WHERE user_id=@user_id AND deleted_at IS NULL";
+            }
+            else
+            {
+                database.command.CommandText = "SELECT * FROM books WHERE user_id=@user_id AND deleted_at IS NULL LIMIT @limit";
+
+                database.command.Parameters.AddWithValue("limit", limit);
+            }
+
+            database.command.Parameters.AddWithValue("user_id", id);
 
             MySqlDataReader result = database.command.ExecuteReader();
 
@@ -146,6 +187,40 @@ namespace BookOverflowASP.Library.Data
             database.CloseConnection();
 
             return new BookDTO();
+        }
+
+        public List<BookDTO> GetByName(string name, int limit)
+        {
+            Database database = new Database();
+
+            if (!database.OpenConnection())
+                // FIXME: throw exception;
+                return null;
+
+            if (limit == -1)
+            {
+                database.command.CommandText = "SELECT * FROM books WHERE name LIKE @name AND deleted_at IS NULL ORDER BY created_at DESC";
+            }
+            else
+            {
+                database.command.CommandText = "SELECT * FROM books WHERE name LIKE @name AND deleted_at IS NULL ORDER BY created_at DESC LIMIT @limit";
+
+                database.command.Parameters.AddWithValue("limit", limit);
+            }
+
+            database.command.Parameters.AddWithValue("name", $"%{name}%");
+
+            MySqlDataReader result = database.command.ExecuteReader();
+
+            List<BookDTO> items = new List<BookDTO>();
+            while (result.Read())
+            {
+                items.Add(new BookDTO(result));
+            }
+
+            database.CloseConnection();
+
+            return items;
         }
 
         public bool Remove(int bookId, int userId)

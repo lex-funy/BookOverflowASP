@@ -1,0 +1,25 @@
+@model BookIndexViewModel
+@{
+    ViewData["Title"] = "Shopping cart";
+}
+<div class="container">
+    <div class="row sb">
+        <h2>@ViewData["Title"]</h2>
+        <form asp-controller="Book" asp-action="Order" method="POST">
+            <input type="submit" class="btn" value="Order">
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="book-items row sb">
+        @foreach (BookModel book in Model.Books) 
+        {
+            <a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id" class="book-item">
+                <img src="https://picsum.photos/250/250" alt="Book Image">
+                <span class="price">@book.Price</span>
+                <span class="title">@book.Name</span>
+            </a>
+        }
+    </div>
+</div>

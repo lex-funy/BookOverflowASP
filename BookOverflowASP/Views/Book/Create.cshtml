@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Create";
     List<SectorModel> sectors = (List<SectorModel>)ViewData["Sectors"];
+    List<CourseModel> courses = (List<CourseModel>)ViewData["Courses"];
 }
 
 <div class="container">
@@ -32,9 +33,20 @@
             </div>
             <div class="form-group">
                 <select asp-for="@Model.Sector.Id">
-                    <option value=""></option>
+                    @foreach (SectorModel sector in sectors) 
+                    {
+                        <option value="@sector.Id">@sector.Name</option>
+                    }
                 </select>
             </div>
+             <div class="form-group">
+                <select asp-for="@Model.Course.Id">
+                    @foreach (CourseModel course in courses) 
+                    {
+                        <option value="@course.Id">@course.Name</option>
+                    }
+                </select>
+            </div> 
             <div class="form-group">
                 <input type="submit" class="btn" />
             </div>

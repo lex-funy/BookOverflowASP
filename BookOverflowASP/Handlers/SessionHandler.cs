@@ -47,5 +47,39 @@ namespace BookOverflowASP
 
             return permission;
         }
+
+        public void AddBookToCart(int bookId, HttpContext context) 
+        {
+            if (context.Session.GetString("cart") != null)
+            {
+                context.Session.SetString("cart", $"{context.Session.GetString("cart")},{bookId}");
+            } 
+            else
+            {
+                context.Session.SetString("cart", bookId.ToString());
+            }
+        }
+
+        public List<int> GetBooksFromCart(HttpContext context)
+        {
+            if (context.Session.GetString("cart") != null)
+            {
+                List<int> output = new List<int>();
+
+                string books = context.Session.GetString("cart");
+                foreach (string book in books.Split(','))
+                {
+                    output.Add(int.Parse(book));
+                }
+
+                return output;
+            }
+            return new List<int>();
+        }
+
+        public void ClearBooks(HttpContext context) 
+        {
+            context.Session.Remove("cart");
+        }
     }
 }

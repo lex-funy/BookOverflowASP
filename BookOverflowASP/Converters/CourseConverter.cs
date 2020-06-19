@@ -29,5 +29,17 @@ namespace BookOverflowASP
 
             return courseModel;
         }
+
+        public List<CourseModel> ToCourseModelList(List<Logic.Course> courses)
+        {
+            List<CourseModel> output = new List<CourseModel>();
+            
+            foreach (Logic.Course course in courses)
+            {
+                output.Add(this.ToCourseModel(course));
+            }
+
+            return output;
+        }
     }
 }

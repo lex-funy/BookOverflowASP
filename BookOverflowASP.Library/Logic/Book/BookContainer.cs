@@ -29,7 +29,24 @@ namespace BookOverflowASP.Library.Logic
             List<Book> books = new List<Book>();
             foreach (BookDTO book in booksDto)
             {
-                // FIXME: Hoe kan dit beter?
+                Course course = this._courseContainer.GetCourseById(book.Course);
+                Sector sector = this._sectorContainer.GetSectorById(book.Sector);
+                User user = this._userContainer.GetUserById(book.User);
+                User deletedBy = this._userContainer.GetUserById(book.DeletedBy);
+
+                books.Add(new Book(book, course, sector, user, deletedBy));
+            }
+
+            return books;
+        }
+
+        public List<Book> GetBooksByUserID(int id, int limit = -1)
+        {
+            List<BookDTO> booksDto = this._bookDAL.GetBooksByUserID(id, limit);
+
+            List<Book> books = new List<Book>();
+            foreach (BookDTO book in booksDto)
+            {
                 Course course = this._courseContainer.GetCourseById(book.Course);
                 Sector sector = this._sectorContainer.GetSectorById(book.Sector);
                 User user = this._userContainer.GetUserById(book.User);
@@ -48,6 +65,7 @@ namespace BookOverflowASP.Library.Logic
             List<Book> books = new List<Book>();
             foreach (BookDTO book in bookDtos)
             {
+                // Hoe kan dit beter?
                 Course course = this._courseContainer.GetCourseById(book.Course);
                 Sector sector = this._sectorContainer.GetSectorById(book.Sector);
                 User user = this._userContainer.GetUserById(book.User);
@@ -73,6 +91,24 @@ namespace BookOverflowASP.Library.Logic
             Book book = new Book(bookDto, course, sector, user, deletedBy);
 
             return book;
+        }
+
+        public List<Book> GetBookByName(string name, int limit = -1)
+        {
+            List<BookDTO> bookDtos = this._bookDAL.GetByName(name, limit);
+
+            List<Book> books = new List<Book>();
+            foreach (BookDTO book in bookDtos)
+            {
+                Course course = this._courseContainer.GetCourseById(book.Course);
+                Sector sector = this._sectorContainer.GetSectorById(book.Sector);
+                User user = this._userContainer.GetUserById(book.User);
+                User deletedBy = this._userContainer.GetUserById(book.DeletedBy);
+                
+                books.Add(new Book(book, course, sector, user, deletedBy));
+            }
+
+            return books;
         }
 
         public bool Save(Book book)

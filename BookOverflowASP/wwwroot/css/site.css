@@ -299,7 +299,7 @@ p.price {
 /*              */
 
 .form-group {
-    display: flex; 
+    display: flex;
     flex-direction: column;
     padding-bottom: 10px;
 }
@@ -308,7 +308,7 @@ p.price {
     padding-bottom: 0;
 }
 
-.form-group input:not([type=submit]) {
+.form-group input:not([type=submit]), .form-group select {
     margin: 10px 0;
     padding: 10px;
 
