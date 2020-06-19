@@ -54,16 +54,12 @@ namespace BookOverflowASP.Controllers
             UserConverter userConverter = new UserConverter();
             this._userContainer.Save(userConverter.ToUser(userModel));
             
-            ViewData["Message"] = "Succesfully registered;";
-            
-            return View();
+            return RedirectToAction("Login");
         }
 
         [HttpGet]
         public IActionResult Login()
         {
-            PermissionType temp = this._sessionHandler.GetPermissionType(HttpContext);
-
             if (!this._middleware.CheckUserPermission(PermissionType.None, HttpContext)) 
                 return RedirectToAction("Login", "User");
 

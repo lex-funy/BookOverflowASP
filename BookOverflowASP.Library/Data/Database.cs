@@ -19,9 +19,22 @@ namespace BookOverflowASP.Library.Data
         public Database()
         {
             // TODO: Put in config.
-            this.server = "localhost";
-            this.username = "root";
-            this.password = "";
+            // Localhost
+            //this.server = "localhost";
+            //this.username = "root";
+            //this.password = "";
+            //this.database = "bookoverflow";
+
+            // FHICT
+            //this.server = "studmysql01.fhict.local";
+            //this.username = "dbi433468";
+            //this.password = "root";
+            //this.database = "dbi433468";
+
+            // Azure
+            this.server = "433468-book-overflow.mysql.database.azure.com";
+            this.username = "i433468@433468-book-overflow";
+            this.password = "Root1324";
             this.database = "bookoverflow";
         }
 
@@ -39,7 +52,7 @@ namespace BookOverflowASP.Library.Data
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
